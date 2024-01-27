@@ -3,26 +3,28 @@ public class LaunchInterceptor {
     private static final double PI = 3.1415926535;
 
     // TYPE DECLARATIONS
-    private enum Connectors { 
+    private enum Connectors {
         NOTUSED(777),
         ORR(778),
-        ANDD(779); 
+        ANDD(779);
 
         private int value;
+
         private Connectors(int value) {
             this.value = value;
         }
     }
 
-    private enum CompType { 
+    private enum CompType {
         LT(1111),
-        EQ(1112), 
-        GT(1113); 
-        
+        EQ(1112),
+        GT(1113);
+
         private int value;
+
         private CompType(int value) {
             this.value = value;
-        }    
+        }
     }
 
     // INPUTS TO THE DECIDE() FUNCTION
@@ -57,8 +59,8 @@ public class LaunchInterceptor {
     private static double[] x2 = new double[100];
     // Y coordinates of data points
 
-    private double[] y = new double[100];    
-    private static double[] y2 = new double[100];    
+    private double[] y = new double[100];
+    private static double[] y2 = new double[100];
 
     // Number of data points
     private int numPoints;
@@ -100,7 +102,100 @@ public class LaunchInterceptor {
 
     // SKRIV FUNKTIONER NEDAN
 
+    // --------------------FUNCTIONS FOR ISSUE 3--------------------
+    private static boolean issue3() {
 
+        for (int i = 0; i < numPoints2 - 2; i++) {
+
+            if (!collinear(x2[i], y2[i], x2[i + 1], y2[i + 1], x2[i + 2], y2[i + 2])) {
+
+                double angle = calculateAngle(x2[i], y2[i], x2[i + 1], y2[i + 1], x2[i + 2], y2[i + 2]);
+
+                // check if condition is satisfied
+                if ((angle < (PI - parameters2.EPSILON)) || (angle > (PI + parameters2.EPSILON))) {
+                    return true;
+                }
+
+            }
+        }
+        return false;
+
+    }
+
+    private static boolean collinear(double x1, double y1, double x2, double y2, double x3, double y3) {
+        return ((y3 - y2) * (x2 - x1) == (y2 - y1) * (x3 - x2));
+    }
+
+    // function to calculate angle between three data points
+    private static double calculateAngle(double x1, double y1, double x2, double y2, double x3, double y3) {
+        double angle = Math.atan2(y3 - y2, x3 - x2) - Math.atan2(y1 - y2, x1 - x2);
+        if (angle < 0) { // adjusting for negative angles
+            angle += 2 * PI;
+        }
+        return angle;
+    }
+
+    // --------------------FUNCTIONS FOR ISSUE 8--------------------
+    private static boolean issue8() {
+
+        if ((numPoints2 < 3)) {
+            return false;
+        }
+
+        if (parameters2.KPTS < 1 || parameters2.KPTS > (numPoints2 - 2)) {
+            return false;
+        }
+
+        for (int i = 0; i < numPoints2 - 2; i++) {
+            double distance = calculateDistance(x2[i], y2[i], x2[i + parameters2.KPTS + 1],
+                    y2[i + parameters2.KPTS + 1]);
+
+            if (distance > parameters2.LENGTH1) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    // function to calculate euclidean distance formula
+    private static double calculateDistance(double x1, double y1, double x2, double y2) {
+        return Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
+    }
+
+    private static boolean issue13() {
+
+        if (numPoints2 < 3) {
+            return false;
+        }
+
+        if (parameters2.LENGTH2 < 0) {
+            return false;
+        }
+
+        int check1 = 0;
+        int check2 = 0;
+
+        for (int i = 0; i < numPoints2 - parameters2.KPTS - 1; i++) {
+            double distance = calculateDistance(x2[i], y2[i], x2[i + parameters2.KPTS + 1],
+                    y2[i + parameters2.KPTS + 1]);
+
+            if (distance > parameters2.LENGTH1) {
+                check1++;
+            }
+
+            if (distance < parameters2.LENGTH2) {
+                check2++;
+            }
+        }
+
+        if (check1 > 0 && check2 > 0) {
+            return true;
+        }
+
+        return false;
+
+    }
 
     // Main method
     public static void main(String[] args) {
