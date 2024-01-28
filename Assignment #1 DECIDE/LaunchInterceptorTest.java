@@ -112,21 +112,6 @@ public class LaunchInterceptorTest {
         // System.out.println(" AREA2 " + li.parameters.AREA2);
     }
 
-    /*
-    @Test
-    public void lic1ReturnsTrueIfThreeConsecutiveDataPointsWithinRadius() {
-        double[] xCoordinates = new double[]{1,1,1,50,60,70,80};
-        double[] yCoordinates = new double[]{2,3,4,50,60,70,80};
-        double radius = 10;
-
-        emptyLI.parameters.RADIUS1 = radius;
-        emptyLI.numPoints = xCoordinates.length;
-        emptyLI.x = xCoordinates;
-        emptyLI.y = yCoordinates;
-
-        assertTrue(emptyLI.lic1());
-    }*/
-
     @Test
     public void lic0ReturnsFalseIfDistanceBetweeenTwoConsecutiveDataPointsLessThanLENGTH1(){
         double[] xCoordinates = new double[]{1,1,4,7,10};
@@ -155,6 +140,27 @@ public class LaunchInterceptorTest {
         emptyLI.y = yCoordinates;
 
         assertTrue(emptyLI.lic0());
+    }
+
+    @Test
+    public void lic5ReturnsTrueIfTwoConsecutiveXCoordsX2MinusX1Negative(){
+        double[] xCoordinates = new double[]{100,10,5,3,1};
+
+        emptyLI.numPoints = xCoordinates.length;
+        emptyLI.x = xCoordinates;
+
+        assertTrue(emptyLI.lic5());
+    }
+
+    @Test
+    public void lic5ReturnsFalseIfTwoConsecutiveXCoordsX2MinusX1Positive(){
+        double[] xCoordinates = new double[]{1,1,3,5,10,100};
+        // should return false if x[j]-x[i]=0
+
+        emptyLI.numPoints = xCoordinates.length;
+        emptyLI.x = xCoordinates;
+
+        assertFalse(emptyLI.lic5());
     }
 }
 

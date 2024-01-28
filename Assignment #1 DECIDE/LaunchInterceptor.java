@@ -100,10 +100,6 @@ public class LaunchInterceptor {
 
     // SKRIV FUNKTIONER NEDAN
 
-    // There exists at least one set of two consecutive data points that are a distance greater than
-    // the length, LENGTH1, apart.
-    // (0 ≤ LENGTH1)
-
     /**
      * Calculates distance between two points
      * @param xCord1 x-coordinate for point 1
@@ -129,6 +125,18 @@ public class LaunchInterceptor {
         return false;
     }
 
+    /**
+     * Sees if there exists at least one set of two consecutive data points (X[i],Y[i]) and (X[j],Y[j]), such that X[j] - X[i] < 0. (where i = j-1)
+     * @return true if it exists, false if it doesn't
+     */
+    public boolean lic5(){
+        for(int i = 0; i < numPoints-1; i++){
+            if(x[i+1] - x[i] < 0){
+                return true;
+            }
+        }
+        return false;
+    }
 
     // Main method
     public static void main(String[] args) {
