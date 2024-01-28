@@ -162,5 +162,59 @@ public class LaunchInterceptorTest {
 
         assertFalse(emptyLI.lic5());
     }
+
+    @Test
+    public void lic10ReturnsTrueIfAreaOfTriangleGreaterThanAREA1(){
+        double[] xCoordinates = new double[]{1,1,4,6,7};
+        double[] yCoordinates = new double[]{1,2,5,7,9};
+        double area1 = 12;
+        int epts = 2;
+        int fpts = 2;
+
+        emptyLI.parameters.EPTS = epts;
+        emptyLI.parameters.FPTS = fpts;
+        emptyLI.parameters.AREA1 = area1;
+        emptyLI.numPoints = xCoordinates.length;
+        emptyLI.x = xCoordinates;
+        emptyLI.y = yCoordinates;
+
+        assertTrue(emptyLI.lic10());
+    }
+
+    @Test
+    public void lic10ReturnsFalseIfAreaOfTriangleLessThanOrEqualToAREA1(){
+        double[] xCoordinates = new double[]{1,1,4,6,7};
+        double[] yCoordinates = new double[]{1,2,5,7,9};
+        double area1 = 12.5; //calculated area with these points is exactly 12.5, thereby should return false
+        int epts = 2;
+        int fpts = 2;
+
+        emptyLI.parameters.EPTS = epts;
+        emptyLI.parameters.FPTS = fpts;
+        emptyLI.parameters.AREA1 = area1;
+        emptyLI.numPoints = xCoordinates.length;
+        emptyLI.x = xCoordinates;
+        emptyLI.y = yCoordinates;
+
+        assertFalse(emptyLI.lic10());
+    }
+
+    @Test
+    public void lic10ReturnsFalseIfNumPointsLessThan5(){
+        double[] xCoordinates = new double[]{1,1,4,6};
+        double[] yCoordinates = new double[]{1,2,5,7};
+        double area1 = 1;
+        int epts = 2;
+        int fpts = 2;
+
+        emptyLI.parameters.EPTS = epts;
+        emptyLI.parameters.FPTS = fpts;
+        emptyLI.parameters.AREA1 = area1;
+        emptyLI.numPoints = xCoordinates.length;
+        emptyLI.x = xCoordinates;
+        emptyLI.y = yCoordinates;
+
+        assertFalse(emptyLI.lic10());
+    }
 }
 

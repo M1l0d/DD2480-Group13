@@ -138,6 +138,27 @@ public class LaunchInterceptor {
         return false;
     }
 
+    /**
+     * Sees if there exists at least one set of three data points seperated by exactly E_PTS and F_PTS consecutive intervening points, 
+     * respectively, that are the vertices of a triangle with area greater than AREA1. The condition is not met when NUMPOINTS < 5
+     * @return true if it exists, false if it doesn't
+     */
+    public boolean lic10(){
+        if(numPoints >= 5){
+            for(int i = 0; i < numPoints-parameters.EPTS-parameters.FPTS; i++){
+                int EPoint = i + parameters.EPTS;
+                int FPoint = i + EPoint + parameters.FPTS;
+                double verticeE = calcDistance(x[i], x[EPoint], y[i], y[EPoint]);
+                double verticeF = calcDistance(x[EPoint], x[FPoint], y[EPoint], y[FPoint]);
+
+                if((verticeE * verticeF)/2 > parameters.AREA1){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     // Main method
     public static void main(String[] args) {
         decide();
