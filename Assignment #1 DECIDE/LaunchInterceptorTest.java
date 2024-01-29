@@ -168,8 +168,8 @@ public class LaunchInterceptorTest {
         double[] xCoordinates = new double[]{1,1,4,6,7};
         double[] yCoordinates = new double[]{1,2,5,7,9};
         double area1 = 12;
-        int epts = 2;
-        int fpts = 2;
+        int epts = 1;
+        int fpts = 1;
 
         emptyLI.parameters.EPTS = epts;
         emptyLI.parameters.FPTS = fpts;
@@ -186,8 +186,8 @@ public class LaunchInterceptorTest {
         double[] xCoordinates = new double[]{1,1,4,6,7};
         double[] yCoordinates = new double[]{1,2,5,7,9};
         double area1 = 12.5; //calculated area with these points is exactly 12.5, thereby should return false
-        int epts = 2;
-        int fpts = 2;
+        int epts = 1;
+        int fpts = 1;
 
         emptyLI.parameters.EPTS = epts;
         emptyLI.parameters.FPTS = fpts;

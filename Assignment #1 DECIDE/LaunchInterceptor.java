@@ -145,9 +145,9 @@ public class LaunchInterceptor {
      */
     public boolean lic10(){
         if(numPoints >= 5){
-            for(int i = 0; i < numPoints-parameters.EPTS-parameters.FPTS; i++){
-                int EPoint = i + parameters.EPTS;
-                int FPoint = i + EPoint + parameters.FPTS;
+            for(int i = 0; i < numPoints-parameters.EPTS-parameters.FPTS - 2; i++){
+                int EPoint = i + parameters.EPTS + 1;
+                int FPoint = i + EPoint + parameters.FPTS + 1;
                 double verticeE = calcDistance(x[i], x[EPoint], y[i], y[EPoint]);
                 double verticeF = calcDistance(x[EPoint], x[FPoint], y[EPoint], y[FPoint]);
 
