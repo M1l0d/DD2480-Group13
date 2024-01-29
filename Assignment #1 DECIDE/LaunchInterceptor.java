@@ -1,3 +1,11 @@
+import java.lang.Math;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
+import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
+
 public class LaunchInterceptor {
     // CONSTANT
     private static final double PI = 3.1415926535;
@@ -28,42 +36,51 @@ public class LaunchInterceptor {
     }
 
     // INPUTS TO THE DECIDE() FUNCTION
-    private static class Parameters {
-        double LENGTH1;
-        double RADIUS1;
-        double EPSILON;
-        double AREA1;
-        int QPTS;
-        int QUADS;
-        double DIST;
-        int NPTS;
-        int KPTS;
-        int APTS;
-        int BPTS;
-        int CPTS;
-        int DPTS;
-        int EPTS;
-        int FPTS;
-        int GPTS;
-        double LENGTH2;
-        double RADIUS2;
-        double AREA2;
+    public class Parameters {
+        double  LENGTH1;
+        double  RADIUS1;
+        double  EPSILON;
+        double  AREA1;
+        int     QPTS;
+        int     QUADS;
+        double  DIST;
+        int     NPTS;
+        int     KPTS;
+        int     APTS;
+        int     BPTS;
+        int     CPTS;
+        int     DPTS;
+        int     EPTS;
+        int     FPTS;
+        int     GPTS;
+        double  LENGTH2;
+        double  RADIUS2;
+        double  AREA2;
     }
 
     // GLOBAL VARIABLE DECLARATIONS
-    private Parameters parameters = new Parameters();
-    private static Parameters parameters2 = new Parameters();
+    public Parameters parameters = new Parameters();
+    //private static Parameters parameters2 = new Parameters();
 
     // X coordinates of data points
+<<<<<<< HEAD
     private double[] x = new double[100];
     private static double[] x2 = new double[100];
 
     // Y coordinates of data points
     private double[] y = new double[100];
     private static double[] y2 = new double[100];
+=======
+    public double[] x;
+    private static double[] x2;
+    // Y coordinates of data points
+
+    public double[] y;    
+    private static double[] y2;    
+>>>>>>> 5b006484a057372b840e817b8bd6e7c9b69e43aa
 
     // Number of data points
-    private int numPoints;
+    public int numPoints;
     private static int numPoints2;
 
     // Logical Connector Matrix
@@ -95,12 +112,17 @@ public class LaunchInterceptor {
         return CompType.GT;
     }
 
+    public static void main(String[] args) {
+        decide();
+    }
+
     // Function you must write
     private static void decide() {
         // Your implementation here
     }
 
     // SKRIV FUNKTIONER NEDAN
+<<<<<<< HEAD
 
     // --------------------FUNCTIONS FOR ISSUE 3--------------------
     private static boolean issue3() {
@@ -203,4 +225,7 @@ public class LaunchInterceptor {
     public static void main(String[] args) {
         decide();
     }
+=======
+    
+>>>>>>> 5b006484a057372b840e817b8bd6e7c9b69e43aa
 }
