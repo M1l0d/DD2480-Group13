@@ -112,6 +112,19 @@ public class LaunchInterceptorTest {
         // System.out.println(" AREA2 " + li.parameters.AREA2);
     }
 
+    @Test
+    public void lic6ReturnsTrueIfOnePointWithinRangeOfN_PTSPointsIsAtADistanceGreaterThanDIST() {
+        double[] xCoordinates = new double[]{2,3,6,4,5,6};
+        double[] yCoordinates = new double[]{2,3,1,4,5,6};
+
+        emptyLI.parameters.DIST = 2;
+        emptyLI.parameters.NPTS = 4;
+        emptyLI.numPoints = xCoordinates.length;
+        emptyLI.x = xCoordinates;
+        emptyLI.y = yCoordinates;
+
+        assertTrue(emptyLI.lic6());
+    }
 
 }
 

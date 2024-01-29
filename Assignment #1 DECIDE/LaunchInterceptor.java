@@ -111,5 +111,36 @@ public class LaunchInterceptor {
     }
 
     // SKRIV FUNKTIONER NEDAN
-    
+
+    /* There exists at least one set of N PTS consecutive data points such that at least one of the
+    points lies a distance greater than DIST from the line joining the first and last of these N PTS
+    points. If the first and last points of these N PTS are identical, then the calculated distance
+    to compare with DIST will be the distance from the coincident point to all other points of
+    the N PTS consecutive points. The condition is not met when NUMPOINTS <3.
+    (3 ≤N PTS ≤NUMPOINTS), (0 ≤DIST) */
+    public boolean lic6() {
+        if( 3 < numPoints){
+            for(int i = 0; i < numPoints - parameters.NPTS; i++) {
+                if(x[i] == x[i+parameters.NPTS] && y[i] == y[i+parameters.NPTS]) {
+                    double distBetweenPoints = Math.sqrt(Math.pow(x[i]-x[i+parameters.NPTS], 2) + Math.pow(y[i]-y[i+parameters.NPTS], 2));
+                        if(parameters.DIST < distBetweenPoints) {
+                            return true;
+                        }
+                }
+                else {
+                    for(int j = i; j < i+parameters.NPTS; j++ ) {
+                        double a = (y[i] - y[i+parameters.NPTS]);
+                        double b = (x[i+parameters.NPTS] - x[i]);
+                        double c = (x[i]*y[i+parameters.NPTS] - y[i]*x[i+parameters.NPTS]);
+                        double distFromLineToPoint =  Math.abs(((a*x[j] + b*y[j] + c) / Math.sqrt(Math.pow(a,2) + Math.pow(b,2))));
+                        if(parameters.DIST < distFromLineToPoint) {
+                            return true;
+                        }
+                    }
+                }
+            }   
+        }
+        return false;
+    }
 }
+    
