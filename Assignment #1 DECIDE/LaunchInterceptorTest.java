@@ -126,5 +126,18 @@ public class LaunchInterceptorTest {
         assertTrue(emptyLI.lic6());
     }
 
+    @Test
+    public void lic11ReturnsTrueIfDataPointHasLargerXValueThanDataPointGPTSLaterInXCoordinetList() {
+        double[] xCoordinates = new double[]{3,4,5,6,1,7};
+        double[] yCoordinates = new double[]{1,1,1,1,1,1};
+
+        emptyLI.parameters.GPTS = 4;
+        emptyLI.numPoints = xCoordinates.length;
+        emptyLI.x = xCoordinates;
+        emptyLI.y = yCoordinates;
+
+        assertTrue(emptyLI.lic11());
+    }
+
 }
 

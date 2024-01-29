@@ -142,5 +142,22 @@ public class LaunchInterceptor {
         }
         return false;
     }
+
+    /*There exists at least one set of two data points, (X[i],Y[i]) and (X[j],Y[j]), separated by
+    exactly G PTS consecutive intervening points, such that X[j] - X[i] <0. (where i <j ) The
+    condition is not met when NUMPOINTS <3.
+    1 ≤G PTS ≤NUMPOINTS−2 */
+    public boolean lic11() {
+
+        if(numPoints > 3) {
+            for(int i = 0; i < numPoints - parameters.GPTS; i++) {
+                if(x[i+parameters.GPTS] - x[i] < 0 ) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 }
     
