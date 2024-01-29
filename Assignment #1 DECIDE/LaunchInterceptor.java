@@ -36,7 +36,7 @@ public class LaunchInterceptor {
     }
 
     // INPUTS TO THE DECIDE() FUNCTION
-    public class Parameters {
+    public static class Parameters {
         double LENGTH1;
         double RADIUS1;
         double EPSILON;
@@ -60,42 +60,42 @@ public class LaunchInterceptor {
 
     // GLOBAL VARIABLE DECLARATIONS
     public Parameters parameters = new Parameters();
-    private static Parameters parameters2 = new Parameters();
+    public static Parameters parameters2 = new Parameters();
 
     // X coordinates of data points
     public double[] x;
-    private static double[] x2;
+    public static double[] x2;
 
     // Y coordinates of data points
     public double[] y;
-    private static double[] y2;
+    public static double[] y2;
 
     // Number of data points
     public int numPoints;
-    private static int numPoints2;
+    public static int numPoints2;
 
     // Logical Connector Matrix
-    private Connectors[][] lcm = new Connectors[15][15];
-    private static Connectors[][] lcm2 = new Connectors[15][15];
+    public Connectors[][] lcm = new Connectors[15][15];
+    public static Connectors[][] lcm2 = new Connectors[15][15];
 
     // Preliminary Unlocking Matrix
-    private boolean[][] pum = new boolean[15][15];
-    private static boolean[][] pum2 = new boolean[15][15];
+    public boolean[][] pum = new boolean[15][15];
+    public static boolean[][] pum2 = new boolean[15][15];
 
     // Conditions Met Vector
-    private boolean[] cmv = new boolean[15];
-    private static boolean[] cmv2 = new boolean[15];
+    public boolean[] cmv = new boolean[15];
+    public static boolean[] cmv2 = new boolean[15];
 
     // Final Unlocking Vector
-    private boolean[] fuv = new boolean[15];
-    private static boolean[] fuv2 = new boolean[15];
+    public boolean[] fuv = new boolean[15];
+    public static boolean[] fuv2 = new boolean[15];
 
     // Decision: Launch or No Launch
-    private boolean launch;
-    private static boolean launch2;
+    public boolean launch;
+    public static boolean launch2;
 
     // Compare floating-point numbers
-    private static CompType doubleCompare(double a, double b) {
+    public static CompType doubleCompare(double a, double b) {
         if (Math.abs(a - b) < 0.000001)
             return CompType.EQ;
         if (a < b)
@@ -104,23 +104,23 @@ public class LaunchInterceptor {
     }
 
     // Function you must write
-    private static void decide() {
+    public static void decide() {
         // Your implementation here
     }
 
     // SKRIV FUNKTIONER NEDAN
 
-    // --------------------FUNCTIONS FOR ISSUE 3--------------------
-    private static boolean issue3() {
+    // --------------------FUNCTIONS FOR ISSUE 3 (lic2)--------------------
+    public boolean lic2() {
 
-        for (int i = 0; i < numPoints2 - 2; i++) {
+        for (int i = 0; i < numPoints - 2; i++) {
 
-            if (!collinear(x2[i], y2[i], x2[i + 1], y2[i + 1], x2[i + 2], y2[i + 2])) {
+            if (!collinear(x[i], y[i], x[i + 1], y[i + 1], x[i + 2], y[i + 2])) {
 
-                double angle = calculateAngle(x2[i], y2[i], x2[i + 1], y2[i + 1], x2[i + 2], y2[i + 2]);
+                double angle = calculateAngle(x[i], y[i], x[i + 1], y[i + 1], x[i + 2], y[i + 2]);
 
                 // check if condition is satisfied
-                if ((angle < (PI - parameters2.EPSILON)) || (angle > (PI + parameters2.EPSILON))) {
+                if ((angle < (PI - parameters.EPSILON)) || (angle > (PI + parameters.EPSILON))) {
                     return true;
                 }
             }
@@ -129,12 +129,12 @@ public class LaunchInterceptor {
 
     }
 
-    private static boolean collinear(double x1, double y1, double x2, double y2, double x3, double y3) {
+    public boolean collinear(double x1, double y1, double x2, double y2, double x3, double y3) {
         return ((y3 - y2) * (x2 - x1) == (y2 - y1) * (x3 - x2));
     }
 
     // function to calculate angle between three data points
-    private static double calculateAngle(double x1, double y1, double x2, double y2, double x3, double y3) {
+    public double calculateAngle(double x1, double y1, double x2, double y2, double x3, double y3) {
         double angle = Math.atan2(y3 - y2, x3 - x2) - Math.atan2(y1 - y2, x1 - x2);
         if (angle < 0) { // adjusting for negative angles
             angle += 2 * PI;
@@ -142,22 +142,22 @@ public class LaunchInterceptor {
         return angle;
     }
 
-    // --------------------FUNCTIONS FOR ISSUE 8--------------------
-    private static boolean issue8() {
+    // --------------------FUNCTIONS FOR ISSUE 8 (lic7)--------------------
+    public boolean lic7() {
 
-        if ((numPoints2 < 3)) {
+        if ((numPoints < 3)) {
             return false;
         }
 
-        if (parameters2.KPTS < 1 || parameters2.KPTS > (numPoints2 - 2)) {
+        if (parameters.KPTS < 1 || parameters.KPTS > (numPoints - 2)) {
             return false;
         }
 
-        for (int i = 0; i < numPoints2 - 2; i++) {
-            double distance = calculateDistance(x2[i], y2[i], x2[i + parameters2.KPTS + 1],
-                    y2[i + parameters2.KPTS + 1]);
+        for (int i = 0; i < numPoints - 2; i++) {
+            double distance = calculateDistance(x[i], y[i], x[i + parameters.KPTS + 1],
+                    y[i + parameters.KPTS + 1]);
 
-            if (distance > parameters2.LENGTH1) {
+            if (distance > parameters.LENGTH1) {
                 return true;
             }
         }
@@ -166,34 +166,34 @@ public class LaunchInterceptor {
     }
 
     // function to calculate euclidean distance formula
-    private static double calculateDistance(double x1, double y1, double x2, double y2) {
+    public double calculateDistance(double x1, double y1, double x2, double y2) {
         return Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
     }
 
-    // --------------------FUNCTIONS FOR ISSUE 13--------------------
+    // --------------------FUNCTIONS FOR ISSUE 13 (lic12)--------------------
 
-    private static boolean issue13() {
+    public boolean lic12() {
 
-        if (numPoints2 < 3) {
+        if (numPoints < 3) {
             return false;
         }
 
-        if (parameters2.LENGTH2 < 0) {
+        if (parameters.LENGTH2 < 0) {
             return false;
         }
 
         boolean check1 = false;
         boolean check2 = false;
 
-        for (int i = 0; i < numPoints2 - parameters2.KPTS - 1; i++) {
-            double distance = calculateDistance(x2[i], y2[i], x2[i + parameters2.KPTS + 1],
-                    y2[i + parameters2.KPTS + 1]);
+        for (int i = 0; i < numPoints - parameters.KPTS - 1; i++) {
+            double distance = calculateDistance(x[i], y[i], x[i + parameters.KPTS + 1],
+                    y[i + parameters.KPTS + 1]);
 
-            if (distance > parameters2.LENGTH1) {
+            if (distance > parameters.LENGTH1) {
                 check1 = true;
             }
 
-            if (distance < parameters2.LENGTH2) {
+            if (distance < parameters.LENGTH2) {
                 check2 = true;
             }
 
