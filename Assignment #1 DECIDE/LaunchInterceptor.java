@@ -37,47 +37,38 @@ public class LaunchInterceptor {
 
     // INPUTS TO THE DECIDE() FUNCTION
     public class Parameters {
-        double  LENGTH1;
-        double  RADIUS1;
-        double  EPSILON;
-        double  AREA1;
-        int     QPTS;
-        int     QUADS;
-        double  DIST;
-        int     NPTS;
-        int     KPTS;
-        int     APTS;
-        int     BPTS;
-        int     CPTS;
-        int     DPTS;
-        int     EPTS;
-        int     FPTS;
-        int     GPTS;
-        double  LENGTH2;
-        double  RADIUS2;
-        double  AREA2;
+        double LENGTH1;
+        double RADIUS1;
+        double EPSILON;
+        double AREA1;
+        int QPTS;
+        int QUADS;
+        double DIST;
+        int NPTS;
+        int KPTS;
+        int APTS;
+        int BPTS;
+        int CPTS;
+        int DPTS;
+        int EPTS;
+        int FPTS;
+        int GPTS;
+        double LENGTH2;
+        double RADIUS2;
+        double AREA2;
     }
 
     // GLOBAL VARIABLE DECLARATIONS
     public Parameters parameters = new Parameters();
-    //private static Parameters parameters2 = new Parameters();
+    private static Parameters parameters2 = new Parameters();
 
     // X coordinates of data points
-<<<<<<< HEAD
-    private double[] x = new double[100];
-    private static double[] x2 = new double[100];
-
-    // Y coordinates of data points
-    private double[] y = new double[100];
-    private static double[] y2 = new double[100];
-=======
     public double[] x;
     private static double[] x2;
-    // Y coordinates of data points
 
-    public double[] y;    
-    private static double[] y2;    
->>>>>>> 5b006484a057372b840e817b8bd6e7c9b69e43aa
+    // Y coordinates of data points
+    public double[] y;
+    private static double[] y2;
 
     // Number of data points
     public int numPoints;
@@ -112,17 +103,12 @@ public class LaunchInterceptor {
         return CompType.GT;
     }
 
-    public static void main(String[] args) {
-        decide();
-    }
-
     // Function you must write
     private static void decide() {
         // Your implementation here
     }
 
     // SKRIV FUNKTIONER NEDAN
-<<<<<<< HEAD
 
     // --------------------FUNCTIONS FOR ISSUE 3--------------------
     private static boolean issue3() {
@@ -197,24 +183,24 @@ public class LaunchInterceptor {
             return false;
         }
 
-        int check1 = 0;
-        int check2 = 0;
+        boolean check1 = false;
+        boolean check2 = false;
 
         for (int i = 0; i < numPoints2 - parameters2.KPTS - 1; i++) {
             double distance = calculateDistance(x2[i], y2[i], x2[i + parameters2.KPTS + 1],
                     y2[i + parameters2.KPTS + 1]);
 
             if (distance > parameters2.LENGTH1) {
-                check1++;
+                check1 = true;
             }
 
             if (distance < parameters2.LENGTH2) {
-                check2++;
+                check2 = true;
             }
-        }
 
-        if (check1 > 0 && check2 > 0) {
-            return true;
+            if (check1 && check2) {
+                return true;
+            }
         }
 
         return false;
@@ -225,7 +211,4 @@ public class LaunchInterceptor {
     public static void main(String[] args) {
         decide();
     }
-=======
-    
->>>>>>> 5b006484a057372b840e817b8bd6e7c9b69e43aa
 }
