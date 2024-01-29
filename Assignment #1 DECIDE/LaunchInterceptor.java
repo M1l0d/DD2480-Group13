@@ -123,7 +123,6 @@ public class LaunchInterceptor {
                 if ((angle < (PI - parameters2.EPSILON)) || (angle > (PI + parameters2.EPSILON))) {
                     return true;
                 }
-
             }
         }
         return false;
