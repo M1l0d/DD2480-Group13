@@ -57,8 +57,8 @@ public class LaunchInterceptor {
     // X coordinates of data points
     private double[] x = new double[100];
     private static double[] x2 = new double[100];
-    // Y coordinates of data points
 
+    // Y coordinates of data points
     private double[] y = new double[100];
     private static double[] y2 = new double[100];
 
@@ -162,6 +162,8 @@ public class LaunchInterceptor {
     private static double calculateDistance(double x1, double y1, double x2, double y2) {
         return Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
     }
+
+    // --------------------FUNCTIONS FOR ISSUE 13--------------------
 
     private static boolean issue13() {
 
