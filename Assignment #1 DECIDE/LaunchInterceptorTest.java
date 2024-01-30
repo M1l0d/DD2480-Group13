@@ -166,6 +166,109 @@ public class LaunchInterceptorTest {
 
         assertTrue(emptyLI.lic11());
     }
+    
+    public void lic0ReturnsFalseIfDistanceBetweeenTwoConsecutiveDataPointsLessThanLENGTH1(){
+        double[] xCoordinates = new double[]{1,1,4,7,10};
+        double[] yCoordinates = new double[]{1,1,5,8,10};
+        double length1 = 5;
+        // if x1=1, x2=4, y1=1, y2=5, then distance will be exactly 5
+        // this should return false as distance needs to be strictly more than LENGTH1
 
+        emptyLI.parameters.LENGTH1 = length1;
+        emptyLI.numPoints = xCoordinates.length;
+        emptyLI.x = xCoordinates;
+        emptyLI.y = yCoordinates;
+
+        assertFalse(emptyLI.lic0());
+    }
+
+    @Test
+    public void lic0ReturnsTrueIfDistanceBetweeenTwoConsecutiveDataPointsMoreThanLENGTH1(){
+        double[] xCoordinates = new double[]{1,5,10,20,100};
+        double[] yCoordinates = new double[]{1,5,10,20,100};
+        double length1 = 5;
+
+        emptyLI.parameters.LENGTH1 = length1;
+        emptyLI.numPoints = xCoordinates.length;
+        emptyLI.x = xCoordinates;
+        emptyLI.y = yCoordinates;
+
+        assertTrue(emptyLI.lic0());
+    }
+
+    @Test
+    public void lic5ReturnsTrueIfTwoConsecutiveXCoordsX2MinusX1Negative(){
+        double[] xCoordinates = new double[]{100,10,5,3,1};
+
+        emptyLI.numPoints = xCoordinates.length;
+        emptyLI.x = xCoordinates;
+
+        assertTrue(emptyLI.lic5());
+    }
+
+    @Test
+    public void lic5ReturnsFalseIfTwoConsecutiveXCoordsX2MinusX1Positive(){
+        double[] xCoordinates = new double[]{1,1,3,5,10,100};
+        // should return false if x[j]-x[i]=0
+
+        emptyLI.numPoints = xCoordinates.length;
+        emptyLI.x = xCoordinates;
+
+        assertFalse(emptyLI.lic5());
+    }
+
+    @Test
+    public void lic10ReturnsTrueIfAreaOfTriangleGreaterThanAREA1(){
+        double[] xCoordinates = new double[]{1,1,4,6,7};
+        double[] yCoordinates = new double[]{1,2,5,7,9};
+        double area1 = 12;
+        int epts = 1;
+        int fpts = 1;
+
+        emptyLI.parameters.EPTS = epts;
+        emptyLI.parameters.FPTS = fpts;
+        emptyLI.parameters.AREA1 = area1;
+        emptyLI.numPoints = xCoordinates.length;
+        emptyLI.x = xCoordinates;
+        emptyLI.y = yCoordinates;
+
+        assertTrue(emptyLI.lic10());
+    }
+
+    @Test
+    public void lic10ReturnsFalseIfAreaOfTriangleLessThanOrEqualToAREA1(){
+        double[] xCoordinates = new double[]{1,1,4,6,7};
+        double[] yCoordinates = new double[]{1,2,5,7,9};
+        double area1 = 12.5; //calculated area with these points is exactly 12.5, thereby should return false
+        int epts = 1;
+        int fpts = 1;
+
+        emptyLI.parameters.EPTS = epts;
+        emptyLI.parameters.FPTS = fpts;
+        emptyLI.parameters.AREA1 = area1;
+        emptyLI.numPoints = xCoordinates.length;
+        emptyLI.x = xCoordinates;
+        emptyLI.y = yCoordinates;
+
+        assertFalse(emptyLI.lic10());
+    }
+
+    @Test
+    public void lic10ReturnsFalseIfNumPointsLessThan5(){
+        double[] xCoordinates = new double[]{1,1,4,6};
+        double[] yCoordinates = new double[]{1,2,5,7};
+        double area1 = 1;
+        int epts = 2;
+        int fpts = 2;
+
+        emptyLI.parameters.EPTS = epts;
+        emptyLI.parameters.FPTS = fpts;
+        emptyLI.parameters.AREA1 = area1;
+        emptyLI.numPoints = xCoordinates.length;
+        emptyLI.x = xCoordinates;
+        emptyLI.y = yCoordinates;
+
+        assertFalse(emptyLI.lic10());
+    }
 }
 
