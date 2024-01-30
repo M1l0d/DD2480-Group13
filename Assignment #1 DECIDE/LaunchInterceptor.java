@@ -1,3 +1,11 @@
+import java.lang.Math;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
+import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
+
 public class LaunchInterceptor {
     // CONSTANT
     public static final double PI = 3.1415926535;
@@ -26,43 +34,43 @@ public class LaunchInterceptor {
     }
 
     // INPUTS TO THE DECIDE() FUNCTION
-    public static class Parameters {
-        double LENGTH1;
-        double RADIUS1;
-        double EPSILON;
-        double AREA1;
-        int QPTS;
-        int QUADS;
-        double DIST;
-        int NPTS;
-        int KPTS;
-        int APTS;
-        int BPTS;
-        int CPTS;
-        int DPTS;
-        int EPTS;
-        int FPTS;
-        int GPTS;
-        double LENGTH2;
-        double RADIUS2;
-        double AREA2;
+    public class Parameters {
+        double  LENGTH1;
+        double  RADIUS1;
+        double  EPSILON;
+        double  AREA1;
+        int     QPTS;
+        int     QUADS;
+        double  DIST;
+        int     NPTS;
+        int     KPTS;
+        int     APTS;
+        int     BPTS;
+        int     CPTS;
+        int     DPTS;
+        int     EPTS;
+        int     FPTS;
+        int     GPTS;
+        double  LENGTH2;
+        double  RADIUS2;
+        double  AREA2;
     }
 
     // GLOBAL VARIABLE DECLARATIONS
     public Parameters parameters = new Parameters();
-    public static Parameters parameters2 = new Parameters();
+    //private static Parameters parameters2 = new Parameters();
 
     // X coordinates of data points
     public double[] x;
-    public static double[] x2;
+    private static double[] x2;
     // Y coordinates of data points
 
     public double[] y;    
-    public static double[] y2;    
+    private static double[] y2;    
 
     // Number of data points
     public int numPoints;
-    public static int numPoints2;
+    private static int numPoints2;
 
     // Logical Connector Matrix
     public Connectors[][] lcm = new Connectors[15][15];
@@ -91,6 +99,10 @@ public class LaunchInterceptor {
         if (a < b)
             return CompType.LT;
         return CompType.GT;
+    }
+
+    public static void main(String[] args) {
+        decide();
     }
 
     // Function you must write
