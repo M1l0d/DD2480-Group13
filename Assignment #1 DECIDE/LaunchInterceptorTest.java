@@ -122,6 +122,7 @@ public class LaunchInterceptorTest {
         double[] x = new double[] { 1, 1, 1, 1, 1 };
         double[] y = new double[] { 2, 3, 5, 6, 4 };
 
+
         emptyLI.parameters.EPSILON = 0;
 
         emptyLI.numPoints = x.length;
@@ -300,6 +301,301 @@ public class LaunchInterceptorTest {
         emptyLI.y = y;
 
         assertTrue(emptyLI.lic12());
+
+    /**
+     * Test if lic4 is met with appropriate data points and valid parameters
+     * First assertion checks if condition is met with appropriate data points
+     * Second assertion checks if condition is not met with data points that do not
+     * make the condition true
+     */
+
+    @Test
+    public void checkLic4WithQptsInMoreThanQuadsQuadrants() {
+
+        int qPts = 3;
+        int quads = 2;
+        int numPoints = 10;
+
+        double[] x1 = new double[] { 0, 1, 2, -5, -78, 45, 30.0, 30, 45, 1 };
+        double[] y1 = new double[] { 0, 1, 2, -6, 4, 67.5, -19, 90, 56, 7 };
+
+        assertTrue(LaunchInterceptor.lic4(x1, y1, qPts, quads, numPoints));
+
+        double[] x2 = new double[numPoints];
+        double[] y2 = new double[numPoints];
+
+        assertFalse(LaunchInterceptor.lic4(x2, y2, qPts, quads, numPoints));
+
+    }
+
+    @Test
+    public void checkLic4WithInvalidInputs() {
+
+        double[] x1 = new double[] { 0, 1, 2, -5, -78, 45, 30.0, 30, 45, 1 };
+        double[] y1 = new double[] { 0, 1, 2, -6, 4, 67.5, -19, 90, 56, 7 };
+
+        int validQpts = 3;
+        int validQuads = 2;
+        int numPoints = 10;
+
+        int invalidQpts1 = 1;
+        int invalidQpts2 = 20;
+
+        int invalidQuads1 = 0;
+        int invalidQuads2 = 10;
+
+        assertFalse(LaunchInterceptor.lic4(x1, y1, invalidQpts1, invalidQuads1, numPoints));
+        assertFalse(LaunchInterceptor.lic4(x1, y1, invalidQpts2, invalidQuads2, numPoints));
+
+        assertFalse(LaunchInterceptor.lic4(x1, y1, validQpts, invalidQuads2, numPoints));
+        assertFalse(LaunchInterceptor.lic4(x1, y1, validQpts, invalidQuads1, numPoints));
+
+        assertFalse(LaunchInterceptor.lic4(x1, y1, invalidQpts1, validQuads, numPoints));
+        assertFalse(LaunchInterceptor.lic4(x1, y1, invalidQpts1, validQuads, numPoints));
+
+    }
+
+    @Test
+    public void checkLic9WithCorrectlySeparatedPoints() {
+
+        int numPoints = 10;
+        double epsilon = 1.25;
+        int cPts = 2;
+        int dPts = 3;
+
+        double[] x1 = new double[] { 0, 1, 2, -5, -78, 45, 30.0, 30, 45, 1 };
+        double[] y1 = new double[] { 0, 1, 2, -6, 4, 67.5, -19, 90, 56, 7 };
+
+    @Test
+    public void lic1ReturnsTrueIfThreeConsecutiveDataPointsNotWithinRadius() {
+        double[] xCoordinates = new double[]{1,2,3,4};
+        double[] yCoordinates = new double[]{1,2,3,4};
+        double radius = 0.5;
+
+        emptyLI.parameters.RADIUS1 = radius;
+        emptyLI.numPoints = xCoordinates.length;
+        emptyLI.x = xCoordinates;
+        emptyLI.y = yCoordinates;
+
+        assertTrue(emptyLI.lic1());
+    }
+
+    @Test
+    public void lic1ReturnsFalseIfAllSetOfThreeConsecutiveDataPointsWithinRadius() {
+        double[] xCoordinates = new double[]{2,1,3,4};
+        double[] yCoordinates = new double[]{2,4,3,4};
+        double radius = 20;
+
+        emptyLI.parameters.RADIUS1 = radius;
+        emptyLI.numPoints = xCoordinates.length;
+        emptyLI.x = xCoordinates;
+        emptyLI.y = yCoordinates;
+
+        assertFalse(emptyLI.lic1());
+    }
+
+    @Test
+    public void lic6ReturnsTrueIfOnePointWithinRangeOfN_PTSPointsIsAtADistanceGreaterThanDIST() {
+        double[] xCoordinates = new double[]{2,3,6,4,5,6};
+        double[] yCoordinates = new double[]{2,3,1,4,5,6};
+
+        emptyLI.parameters.DIST = 2;
+        emptyLI.parameters.NPTS = 4;
+        emptyLI.numPoints = xCoordinates.length;
+        emptyLI.x = xCoordinates;
+        emptyLI.y = yCoordinates;
+
+        assertTrue(emptyLI.lic6());
+    }
+
+    @Test
+    public void lic11ReturnsTrueIfDataPointHasLargerXValueThanDataPointGPTSLaterInXCoordinetList() {
+        double[] xCoordinates = new double[]{3,4,5,6,1,7};
+        double[] yCoordinates = new double[]{1,1,1,1,1,1};
+
+        emptyLI.parameters.GPTS = 4;
+        emptyLI.numPoints = xCoordinates.length;
+        emptyLI.x = xCoordinates;
+        emptyLI.y = yCoordinates;
+
+        assertTrue(emptyLI.lic11());
+    }
+    
+    public void lic0ReturnsFalseIfDistanceBetweeenTwoConsecutiveDataPointsLessThanLENGTH1(){
+        double[] xCoordinates = new double[]{1,1,4,7,10};
+        double[] yCoordinates = new double[]{1,1,5,8,10};
+        double length1 = 5;
+        // if x1=1, x2=4, y1=1, y2=5, then distance will be exactly 5
+        // this should return false as distance needs to be strictly more than LENGTH1
+
+        emptyLI.parameters.LENGTH1 = length1;
+        emptyLI.numPoints = xCoordinates.length;
+        emptyLI.x = xCoordinates;
+        emptyLI.y = yCoordinates;
+
+        assertFalse(emptyLI.lic0());
+    }
+
+    @Test
+    public void lic0ReturnsTrueIfDistanceBetweeenTwoConsecutiveDataPointsMoreThanLENGTH1(){
+        double[] xCoordinates = new double[]{1,5,10,20,100};
+        double[] yCoordinates = new double[]{1,5,10,20,100};
+        double length1 = 5;
+
+        emptyLI.parameters.LENGTH1 = length1;
+        emptyLI.numPoints = xCoordinates.length;
+        emptyLI.x = xCoordinates;
+        emptyLI.y = yCoordinates;
+
+        assertTrue(emptyLI.lic0());
+    }
+
+    @Test
+    public void lic5ReturnsTrueIfTwoConsecutiveXCoordsX2MinusX1Negative(){
+        double[] xCoordinates = new double[]{100,10,5,3,1};
+
+        emptyLI.numPoints = xCoordinates.length;
+        emptyLI.x = xCoordinates;
+
+        assertTrue(emptyLI.lic5());
+    }
+
+    @Test
+    public void lic5ReturnsFalseIfTwoConsecutiveXCoordsX2MinusX1Positive(){
+        double[] xCoordinates = new double[]{1,1,3,5,10,100};
+        // should return false if x[j]-x[i]=0
+
+        emptyLI.numPoints = xCoordinates.length;
+        emptyLI.x = xCoordinates;
+
+        assertFalse(emptyLI.lic5());
+    }
+
+    @Test
+    public void lic10ReturnsTrueIfAreaOfTriangleGreaterThanAREA1(){
+        double[] xCoordinates = new double[]{1,1,4,6,7};
+        double[] yCoordinates = new double[]{1,2,5,7,9};
+        double area1 = 12;
+        int epts = 1;
+        int fpts = 1;
+
+        emptyLI.parameters.EPTS = epts;
+        emptyLI.parameters.FPTS = fpts;
+        emptyLI.parameters.AREA1 = area1;
+        emptyLI.numPoints = xCoordinates.length;
+        emptyLI.x = xCoordinates;
+        emptyLI.y = yCoordinates;
+
+        assertTrue(emptyLI.lic10());
+    }
+
+    @Test
+    public void lic10ReturnsFalseIfAreaOfTriangleLessThanOrEqualToAREA1(){
+        double[] xCoordinates = new double[]{1,1,4,6,7};
+        double[] yCoordinates = new double[]{1,2,5,7,9};
+        double area1 = 12.5; //calculated area with these points is exactly 12.5, thereby should return false
+        int epts = 1;
+        int fpts = 1;
+
+        emptyLI.parameters.EPTS = epts;
+        emptyLI.parameters.FPTS = fpts;
+        emptyLI.parameters.AREA1 = area1;
+        emptyLI.numPoints = xCoordinates.length;
+        emptyLI.x = xCoordinates;
+        emptyLI.y = yCoordinates;
+
+        assertFalse(emptyLI.lic10());
+    }
+
+    @Test
+    public void lic10ReturnsFalseIfNumPointsLessThan5(){
+        double[] xCoordinates = new double[]{1,1,4,6};
+        double[] yCoordinates = new double[]{1,2,5,7};
+        double area1 = 1;
+        int epts = 2;
+        int fpts = 2;
+
+        emptyLI.parameters.EPTS = epts;
+        emptyLI.parameters.FPTS = fpts;
+        emptyLI.parameters.AREA1 = area1;
+        emptyLI.numPoints = xCoordinates.length;
+        emptyLI.x = xCoordinates;
+        emptyLI.y = yCoordinates;
+
+        assertFalse(emptyLI.lic10());
+    }
+}
+
+
+        assertTrue(LaunchInterceptor.lic9(x1, y1, Math.PI, epsilon, cPts, dPts, numPoints));
+
+        double[] x2 = new double[numPoints];
+        double[] y2 = new double[numPoints];
+
+        assertFalse(LaunchInterceptor.lic9(x2, y2, Math.PI, epsilon, cPts, dPts, numPoints));
+
+    }
+
+    @Test
+    public void checkLic9WithInvalidInputs() {
+
+        double[] x2 = new double[] { 0, 5, 10, 15, 20 };
+        double[] y2 = new double[] { 1, 3, 5, 7, 9 };
+        double epsilon = 1.25;
+
+        int validCPts = 2;
+        int validDPts = 3;
+
+        int invalidNumPoints = 4;
+        int invalidCPts1 = 0;
+        int invalidDPts1 = 0;
+
+        int invalidCPts2 = 5;
+        int invalidDPts2 = 5;
+
+        assertFalse(LaunchInterceptor.lic9(x2, y2, Math.PI, epsilon, invalidCPts1, invalidDPts1, x2.length));
+
+        assertFalse(LaunchInterceptor.lic9(x2, y2, Math.PI, epsilon, validCPts, validDPts, invalidNumPoints));
+
+        assertFalse(LaunchInterceptor.lic9(x2, y2, Math.PI, epsilon, invalidCPts2, invalidDPts2, x2.length));
+
+    }
+
+    @Test
+    public void checkLic14WithCorrectlySeparatedPoints() {
+
+        int numPoints = 10;
+        double area1 = 3;
+        double area2 = 1000;
+        int ePts = 2;
+        int fPts = 3;
+
+        double[] x1 = new double[] { 0, 1, 2, -5, -78, 45, 30.0, 30, 45, 1 };
+        double[] y1 = new double[] { 0, 1, 2, -6, 4, 67.5, -19, 90, 56, 7 };
+
+        assertTrue(LaunchInterceptor.lic14(x1, y1, area1, area2, ePts, fPts, numPoints));
+
+        double[] x2 = new double[numPoints];
+        double[] y2 = new double[numPoints];
+
+        assertFalse(LaunchInterceptor.lic14(x2, y2, area1, area2, ePts, fPts, numPoints));
+    }
+
+    @Test
+    public void checkLic14WithInvalidInputs() {
+        double area1 = 3;
+        int ePts = 2;
+        int fPts = 3;
+        double[] x1 = new double[] { 0, 1, 2, -5, -78, 45, 30.0, 30, 45, 1 };
+        double[] y1 = new double[] { 0, 1, 2, -6, 4, 67.5, -19, 90, 56, 7 };
+
+        int invalidNumPoints = 1;
+        double validArea2 = 1000;
+        double invalidArea2 = -1;
+
+        assertFalse(LaunchInterceptor.lic14(x1, y1, area1, invalidArea2, ePts, fPts, invalidNumPoints));
+        assertFalse(LaunchInterceptor.lic14(x1, y1, area1, invalidArea2, ePts, fPts, x1.length));
+        assertFalse(LaunchInterceptor.lic14(x1, y1, area1, validArea2, ePts, fPts, invalidNumPoints));
 
     }
 
