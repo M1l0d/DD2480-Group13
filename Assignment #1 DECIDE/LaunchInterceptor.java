@@ -8,10 +8,11 @@ import java.util.stream.IntStream;
 
 public class LaunchInterceptor {
     // CONSTANT
-    private static final double PI = 3.1415926535;
+    public static final double PI = 3.1415926535;
 
     // TYPE DECLARATIONS
-    private enum Connectors {
+
+    public enum Connectors { 
         NOTUSED(777),
         ORR(778),
         ANDD(779);
@@ -23,7 +24,8 @@ public class LaunchInterceptor {
         }
     }
 
-    private enum CompType {
+
+    public enum CompType { 
         LT(1111),
         EQ(1112),
         GT(1113);
@@ -75,27 +77,27 @@ public class LaunchInterceptor {
     private static int numPoints2;
 
     // Logical Connector Matrix
-    private Connectors[][] lcm = new Connectors[15][15];
-    private static Connectors[][] lcm2 = new Connectors[15][15];
+    public Connectors[][] lcm = new Connectors[15][15];
+    public static Connectors[][] lcm2 = new Connectors[15][15];
 
     // Preliminary Unlocking Matrix
-    private boolean[][] pum = new boolean[15][15];
-    private static boolean[][] pum2 = new boolean[15][15];
+    public boolean[][] pum = new boolean[15][15];
+    public static boolean[][] pum2 = new boolean[15][15];
 
     // Conditions Met Vector
-    private boolean[] cmv = new boolean[15];
-    private static boolean[] cmv2 = new boolean[15];
+    public boolean[] cmv = new boolean[15];
+    public static boolean[] cmv2 = new boolean[15];
 
     // Final Unlocking Vector
-    private boolean[] fuv = new boolean[15];
-    private static boolean[] fuv2 = new boolean[15];
+    public boolean[] fuv = new boolean[15];
+    public static boolean[] fuv2 = new boolean[15];
 
     // Decision: Launch or No Launch
-    private boolean launch;
-    private static boolean launch2;
+    public boolean launch;
+    public static boolean launch2;
 
     // Compare floating-point numbers
-    private static CompType doubleCompare(double a, double b) {
+    public static CompType doubleCompare(double a, double b) {
         if (Math.abs(a - b) < 0.000001)
             return CompType.EQ;
         if (a < b)
@@ -323,10 +325,74 @@ public class LaunchInterceptor {
     }
 
     // Function you must write
-    private static void decide() {
+    public static void decide() {
         // Your implementation here
     }
 
     // SKRIV FUNKTIONER NEDAN
 
+
+    /**
+     * Calculates distance between two points
+     * @param xCord1 x-coordinate for point 1
+     * @param xCord2 x-coordinate for point 2
+     * @param yCord1 y-coordinate for point 1
+     * @param yCord2 y-coordinate for point 2
+     * @return a double that is the distance
+     */
+    public double calcDistance(double xCord1, double xCord2, double yCord1, double yCord2){
+        return Math.sqrt(Math.pow(xCord1-xCord2, 2) + Math.pow(yCord1-yCord2, 2));
+    }
+
+    /**
+    * Sees if there exists at least one set of two consecutive data points that are a distance greater than LENGTH1 apart.
+    * @return true if it exists, false if it doesn't
+    */
+    public boolean lic0(){
+        for(int i = 0; i < numPoints-1; i++){
+            if(calcDistance(x[i], x[i+1], y[i], y[i+1]) > parameters.LENGTH1){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Sees if there exists at least one set of two consecutive data points (X[i],Y[i]) and (X[j],Y[j]), such that X[j] - X[i] < 0. (where i = j-1)
+     * @return true if it exists, false if it doesn't
+     */
+    public boolean lic5(){
+        for(int i = 0; i < numPoints-1; i++){
+            if(x[i+1] - x[i] < 0){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Sees if there exists at least one set of three data points seperated by exactly E_PTS and F_PTS consecutive intervening points, 
+     * respectively, that are the vertices of a triangle with area greater than AREA1. The condition is not met when NUMPOINTS < 5
+     * @return true if it exists, false if it doesn't
+     */
+    public boolean lic10(){
+        if(numPoints >= 5){
+            for(int i = 0; i < numPoints-parameters.EPTS-parameters.FPTS - 2; i++){
+                int EPoint = i + parameters.EPTS + 1;
+                int FPoint = i + EPoint + parameters.FPTS + 1;
+                double verticeE = calcDistance(x[i], x[EPoint], y[i], y[EPoint]);
+                double verticeF = calcDistance(x[EPoint], x[FPoint], y[EPoint], y[FPoint]);
+
+                if((verticeE * verticeF)/2 > parameters.AREA1){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    // Main method
+    public static void main(String[] args) {
+        decide();
+    }
 }
