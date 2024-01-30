@@ -116,6 +116,191 @@ public class LaunchInterceptorTest {
         // System.out.println(" AREA2 " + li.parameters.AREA2);
     }
 
+    // test case for when the points are collinear and an angle is not formed
+    @Test
+    public void testLic2CollinearPoints() {
+        double[] x = new double[] { 1, 1, 1, 1, 1 };
+        double[] y = new double[] { 2, 3, 5, 6, 4 };
+
+
+        emptyLI.parameters.EPSILON = 0;
+
+        emptyLI.numPoints = x.length;
+        emptyLI.x = x;
+        emptyLI.y = y;
+
+        assertFalse(emptyLI.lic2());
+
+    }
+
+    // test case for when an angle can be found
+    @Test
+    public void testLic2NonCollinearPoints() {
+        double[] x = new double[] { 1, 2, 3, 4, 5 };
+        double[] y = new double[] { 2, 3, 5, 6, 4 };
+
+        emptyLI.parameters.EPSILON = 0;
+
+        emptyLI.numPoints = x.length;
+        emptyLI.x = x;
+        emptyLI.y = y;
+
+        assertTrue(emptyLI.lic2());
+
+    }
+
+    // test case for when the number of points are less than 3
+    @Test
+    public void testLic7NumPointsLessThan3() {
+        double[] x = new double[] { 1, 1 };
+        double[] y = new double[] { 2, 3 };
+
+        emptyLI.numPoints = x.length;
+        emptyLI.x = x;
+        emptyLI.y = y;
+
+        assertFalse(emptyLI.lic7());
+
+    }
+
+    // test case for when KPTS is less than 1
+    @Test
+    public void testLic7KPTSLessThan1() {
+        double[] x = new double[] { 1, 1, 3, 4 };
+        double[] y = new double[] { 2, 3, 6, 7 };
+
+        emptyLI.parameters.KPTS = 0;
+
+        emptyLI.numPoints = x.length;
+        emptyLI.x = x;
+        emptyLI.y = y;
+
+        assertFalse(emptyLI.lic7());
+
+    }
+
+    // test case for when KPTS is larger than numPoints - 2
+    @Test
+    public void testLic7KPTSLargerThanNumPointsMinus2() {
+        double[] x = new double[] { 1, 1, 3, 4 };
+        double[] y = new double[] { 2, 3, 6, 7 };
+
+        emptyLI.parameters.KPTS = 5;
+
+        emptyLI.numPoints = x.length;
+        emptyLI.x = x;
+        emptyLI.y = y;
+
+        assertFalse(emptyLI.lic7());
+
+    }
+
+    // test case for when distance is less than LENGTH1
+    @Test
+    public void testLic7DistanceLessThanLENGTH1() {
+        double[] x = new double[] { 1, 2, 4, 5 };
+        double[] y = new double[] { 2, 3, 6, 7 };
+
+        emptyLI.parameters.KPTS = 1;
+        emptyLI.parameters.LENGTH1 = 10.0;
+        emptyLI.numPoints = x.length;
+        emptyLI.x = x;
+        emptyLI.y = y;
+
+        assertFalse(emptyLI.lic7());
+    }
+
+    // test case for when all conditions are met
+    @Test
+    public void testLic7SatisfyConditions() {
+        double[] x = new double[] { 1, 2, 4, 5 };
+        double[] y = new double[] { 2, 3, 6, 7 };
+
+        emptyLI.parameters.KPTS = 1;
+        emptyLI.parameters.LENGTH1 = 1.0;
+
+        emptyLI.numPoints = x.length;
+        emptyLI.x = x;
+        emptyLI.y = y;
+
+        assertTrue(emptyLI.lic7());
+
+    }
+
+    // test case for when the number of points are less than 3
+    @Test
+    public void testLic12NumPointsLessThan3() {
+        double[] x = new double[] { 1, 1 };
+        double[] y = new double[] { 2, 3 };
+
+        emptyLI.numPoints = x.length;
+        emptyLI.x = x;
+        emptyLI.y = y;
+
+        assertFalse(emptyLI.lic12());
+
+    }
+
+    // test case for when LENGTH2 is less than 0
+    @Test
+    public void testLic12Length2LessThan0() {
+        emptyLI.parameters.LENGTH2 = -1;
+
+        assertFalse(emptyLI.lic12());
+
+    }
+
+    // test case for when distance is greater than LENGTH1
+    @Test
+    public void testLic12DistanceGreaterThanLength1() {
+        double[] x = new double[] { 1, 2, 4, 5 };
+        double[] y = new double[] { 2, 3, 6, 7 };
+
+        emptyLI.parameters.KPTS = 1;
+        emptyLI.parameters.LENGTH1 = 1.0;
+        emptyLI.parameters.LENGTH2 = 1.0;
+
+        emptyLI.numPoints = x.length;
+        emptyLI.x = x;
+        emptyLI.y = y;
+
+        assertFalse(emptyLI.lic12());
+
+    }
+
+    // test case for when distance is less than LENGTH2
+    @Test
+    public void testLic12DistanceLessThanLength2() {
+        double[] x = new double[] { 1, 2, 4, 5 };
+        double[] y = new double[] { 2, 3, 6, 7 };
+
+        emptyLI.parameters.KPTS = 1;
+        emptyLI.parameters.LENGTH1 = 10.0;
+        emptyLI.parameters.LENGTH2 = 10.0;
+
+        emptyLI.numPoints = x.length;
+        emptyLI.x = x;
+        emptyLI.y = y;
+
+        assertFalse(emptyLI.lic12());
+
+    }
+
+    // test case for when all conditions are met
+    @Test
+    public void testLic12SatisfyConditions() {
+        double[] x = new double[] { 1, 2, 4, 5 };
+        double[] y = new double[] { 2, 3, 6, 7 };
+
+        emptyLI.parameters.KPTS = 1;
+        emptyLI.parameters.LENGTH1 = 1.0;
+        emptyLI.parameters.LENGTH2 = 20.0;
+
+        emptyLI.numPoints = x.length;
+        emptyLI.x = x;
+        emptyLI.y = y;
+
+        assertTrue(emptyLI.lic12());
 
     /**
      * Test if lic4 is met with appropriate data points and valid parameters
