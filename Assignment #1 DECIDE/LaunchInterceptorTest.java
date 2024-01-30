@@ -182,6 +182,60 @@ public class LaunchInterceptorTest {
         double[] y1 = new double[] { 0, 1, 2, -6, 4, 67.5, -19, 90, 56, 7 };
 
     @Test
+    public void lic1ReturnsTrueIfThreeConsecutiveDataPointsNotWithinRadius() {
+        double[] xCoordinates = new double[]{1,2,3,4};
+        double[] yCoordinates = new double[]{1,2,3,4};
+        double radius = 0.5;
+
+        emptyLI.parameters.RADIUS1 = radius;
+        emptyLI.numPoints = xCoordinates.length;
+        emptyLI.x = xCoordinates;
+        emptyLI.y = yCoordinates;
+
+        assertTrue(emptyLI.lic1());
+    }
+
+    @Test
+    public void lic1ReturnsFalseIfAllSetOfThreeConsecutiveDataPointsWithinRadius() {
+        double[] xCoordinates = new double[]{2,1,3,4};
+        double[] yCoordinates = new double[]{2,4,3,4};
+        double radius = 20;
+
+        emptyLI.parameters.RADIUS1 = radius;
+        emptyLI.numPoints = xCoordinates.length;
+        emptyLI.x = xCoordinates;
+        emptyLI.y = yCoordinates;
+
+        assertFalse(emptyLI.lic1());
+    }
+
+    @Test
+    public void lic6ReturnsTrueIfOnePointWithinRangeOfN_PTSPointsIsAtADistanceGreaterThanDIST() {
+        double[] xCoordinates = new double[]{2,3,6,4,5,6};
+        double[] yCoordinates = new double[]{2,3,1,4,5,6};
+
+        emptyLI.parameters.DIST = 2;
+        emptyLI.parameters.NPTS = 4;
+        emptyLI.numPoints = xCoordinates.length;
+        emptyLI.x = xCoordinates;
+        emptyLI.y = yCoordinates;
+
+        assertTrue(emptyLI.lic6());
+    }
+
+    @Test
+    public void lic11ReturnsTrueIfDataPointHasLargerXValueThanDataPointGPTSLaterInXCoordinetList() {
+        double[] xCoordinates = new double[]{3,4,5,6,1,7};
+        double[] yCoordinates = new double[]{1,1,1,1,1,1};
+
+        emptyLI.parameters.GPTS = 4;
+        emptyLI.numPoints = xCoordinates.length;
+        emptyLI.x = xCoordinates;
+        emptyLI.y = yCoordinates;
+
+        assertTrue(emptyLI.lic11());
+    }
+    
     public void lic0ReturnsFalseIfDistanceBetweeenTwoConsecutiveDataPointsLessThanLENGTH1(){
         double[] xCoordinates = new double[]{1,1,4,7,10};
         double[] yCoordinates = new double[]{1,1,5,8,10};
