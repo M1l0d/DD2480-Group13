@@ -112,6 +112,75 @@ public class LaunchInterceptor {
 
     // SKRIV FUNKTIONER NEDAN
 
+    /* LIC 1: There exists at least one set of three consecutive data points that cannot all be contained
+    within or on a circle of radius RADIUS1.
+    (0 ≤RADIUS1) */
+    public double calculateCircumCircleRadius(double xCord1, double xCord2, double xCord3, double yCord1, double yCord2, double yCord3) {        
+        double a = distBetweenPoint(xCord1, xCord2, yCord1, yCord2);
+        double b = distBetweenPoint(xCord1, xCord3, yCord1, yCord3);
+        double c = distBetweenPoint(xCord2, xCord3, yCord2, yCord3);
+        return (a*b*c) / Math.sqrt((a+b+c)*(b+c-a)*(c+a-b)*(a+b-c));
+    }
+
+    public double distBetweenPoint(double xCord1, double xCord2, double yCord1, double yCord2) {
+        return Math.sqrt(Math.pow(xCord1-xCord2, 2) + Math.pow(yCord1-yCord2, 2));   
+    }
+
+    public boolean pointInsideCircle(double[] midPointOfCircle, double radius, double[] point) {
+        return  (distBetweenPoint(midPointOfCircle[0], point[0], midPointOfCircle[1], point[1]) / 2) < radius;
+    }
+    
+    public boolean lic1() {
+        double inf = 1e18;
+        for(int i = 0; i < numPoints - 2; i++) {
+            
+            double x1 = x[i];
+            double x2 = x[i+1];
+            double x3 = x[i+2];
+            double y1 = y[i];
+            double y2 = y[i+1];
+            double y3 = y[i+2];
+
+            double minRadius = inf;
+
+            double[] midPoint1 = new double[]{x1 - x2 / 2, y1 - y2 / 2};
+            double radius1 = distBetweenPoint(x1, x2, y1, y2) / 2;
+            double[] lastPoint1 = new double[]{x3, y3};
+            boolean last1InCircle = pointInsideCircle(midPoint1, radius1, lastPoint1);
+            
+            if(last1InCircle && radius1 < minRadius) {
+                minRadius = radius1;
+            }
+
+            double[] midPoint2 = new double[]{x1 - x3 / 2, y1 - y3 / 2};
+            double radius2 = distBetweenPoint(x1, x3, y1, y3) / 2;
+            double[] lastPoint2 = new double[]{x2, y2};
+            boolean last2InCircle = pointInsideCircle(midPoint2, radius2, lastPoint2);
+
+            if(last2InCircle && radius2 < minRadius) {
+                minRadius = radius2;
+            }
+
+            double[] midPoint3 = new double[]{x2 - x3 / 2, y2 - y3 / 2};
+            double radius3 = distBetweenPoint(x2, x3, y2, y3) / 2;
+            double[] lastPoint3 = new double[]{x1, y1};
+            boolean last3InCircle = pointInsideCircle(midPoint3, radius3, lastPoint3);
+
+            if(last3InCircle && radius3 < minRadius) {
+                minRadius = radius3;
+            }
+
+            if(minRadius == inf) {
+                minRadius = calculateCircumCircleRadius(x[i], x[i+1], x[i+2], y[i], y[i+1], y[i+2]);
+            }
+
+            if(minRadius > parameters.RADIUS1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /* There exists at least one set of N PTS consecutive data points such that at least one of the
     points lies a distance greater than DIST from the line joining the first and last of these N PTS
     points. If the first and last points of these N PTS are identical, then the calculated distance
