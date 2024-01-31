@@ -1,113 +1,29 @@
-import java.applet.AppletStub;
-import java.lang.Math;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
-import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
-
 public class LaunchInterceptor {
-    // CONSTANT
-    private static final double PI = 3.1415926535;
-
-    // TYPE DECLARATIONS
-    private enum Connectors { 
-        NOTUSED(777),
-        ORR(778),
-        ANDD(779); 
-
-        private int value;
-        private Connectors(int value) {
-            this.value = value;
-        }
-    }
-
-    private enum CompType { 
-        LT(1111),
-        EQ(1112), 
-        GT(1113); 
-        
-        private int value;
-        private CompType(int value) {
-            this.value = value;
-        }    
-    }
-
-    // INPUTS TO THE DECIDE() FUNCTION
-    public class Parameters {
-        double  LENGTH1;
-        double  RADIUS1;
-        double  EPSILON;
-        double  AREA1;
-        int     QPTS;
-        int     QUADS;
-        double  DIST;
-        int     NPTS;
-        int     KPTS;
-        int     APTS;
-        int     BPTS;
-        int     CPTS;
-        int     DPTS;
-        int     EPTS;
-        int     FPTS;
-        int     GPTS;
-        double  LENGTH2;
-        double  RADIUS2;
-        double  AREA2;
-    }
-
-    // GLOBAL VARIABLE DECLARATIONS
-    public Parameters parameters = new Parameters();
-    //private static Parameters parameters2 = new Parameters();
-
-    // X coordinates of data points
-    public double[] x;
-    private static double[] x2;
-    // Y coordinates of data points
-
-    public double[] y;    
-    private static double[] y2;    
-
-    // Number of data points
-    public int numPoints;
-    private static int numPoints2;
-
+    
     // Logical Connector Matrix
-    private Connectors[][] lcm = new Connectors[15][15];
-    private static Connectors[][] lcm2 = new Connectors[15][15];
+    public Connectors[][] lcm = new Connectors[15][15];
 
     // Preliminary Unlocking Matrix
-    private boolean[][] pum = new boolean[15][15];
-    private static boolean[][] pum2 = new boolean[15][15];
+    public boolean[][] pum = new boolean[15][15];
+
+    // Preliminary Unlocking Vector
+    public boolean[] puv = new boolean[15];
 
     // Conditions Met Vector
-    private boolean[] cmv = new boolean[15];
-    private static boolean[] cmv2 = new boolean[15];
+    public boolean[] cmv = new boolean[15];
 
     // Final Unlocking Vector
-    private boolean[] fuv = new boolean[15];
-    private static boolean[] fuv2 = new boolean[15];
+    public boolean[] fuv = new boolean[15];
 
     // Decision: Launch or No Launch
-    private boolean launch;
-    private static boolean launch2;
-
-    // Compare floating-point numbers
-    private static CompType doubleCompare(double a, double b) {
-        if (Math.abs(a - b) < 0.000001)
-            return CompType.EQ;
-        if (a < b)
-            return CompType.LT;
-        return CompType.GT;
-    }
+    public boolean launch;
 
     public static void main(String[] args) {
         decide();
     }
 
     // Function you must write
-    private static void decide() {
+    public static void decide() {
         // Your implementation here
     }
 
@@ -118,12 +34,12 @@ public class LaunchInterceptor {
     area greater than AREA1. */
 public boolean LIC3() {
     for (int i = 0, j = 0; i < x.length - 2 && j < y.length - 2; i++, j++) {
-        double x1 = x[i];
-        double y1 = y[j];
-        double x2 = x[i + 1];
-        double y2 = y[j + 1];
-        double x3 = x[i + 2];
-        double y3 = y[j + 2];
+        double x1 = parameters.x[i];
+        double y1 = parameters.y[j];
+        double x2 = parameters.x[i + 1];
+        double y2 = parameters.y[j + 1];
+        double x3 = parameters.x[i + 2];
+        double y3 = parameters.y[j + 2];
         
         double area = calculateTriangleArea(x1, y1, x2, y2, x3, y3);
         if (area > parameters.AREA1) {
@@ -135,7 +51,8 @@ public boolean LIC3() {
 public static double calculateTriangleArea(double x1, double y1, double x2, double y2, double x3, double y3) {
     return Math.abs((x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)) / 2);
 }
-/*Issue 9. There exists at least one set of three data points 
+/* LIC8
+* There exists at least one set of three data points 
 * separated by exactly A PTS and B PTS consecutive intervening points, 
 * respectively, that cannot be contained within or on a circle of 
 * radius RADIUS1. The condition is not met when NUMPOINTS < 5.
@@ -168,12 +85,12 @@ public boolean LIC8() {
     exactly A_PTS and B_PTS consecutive intervening points, respectively,
     that cannot be contained within or on a circle of radius RADIUS1*/
     for (int i = 0; i < numPoints - parameters.APTS-parameters.BPTS-2; i++) { // NUMPOINTS - 2 to ensure there's remaining data points for an iteration
-        double x1 = x[i];
-        double y1 = y[i];
-        double x2 = x[i + parameters.APTS + 1];
-        double y2 = y[i + parameters.APTS + 1];
-        double x3 = x[i + parameters.APTS + parameters.BPTS + 2];
-        double y3 = y[i + parameters.APTS + parameters.BPTS + 2];
+        double x1 = parameters.x[i];
+        double y1 = parameters.y[i];
+        double x2 = parameters.x[i + parameters.APTS + 1];
+        double y2 = parameters.y[i + parameters.APTS + 1];
+        double x3 = parameters.x[i + parameters.APTS + parameters.BPTS + 2];
+        double y3 = parameters.y[i + parameters.APTS + parameters.BPTS + 2];
 
 
 
@@ -245,21 +162,21 @@ Both parts must be true for the LIC to be true. The condition is not met when NU
 public boolean LIC13() {
     //CONDITION-CHECKS
     // Check if NUMPOINTS is less than 5
-    if (numPoints < 5) {
+    if (parameters.numPoints < 5) {
         return false; // Condition not met
     }
     // Check if RADIUS2 is less than 0
-    if (parameters.RADIUS2 < 0) {
+    if (parameters.RADIUS < 0) {
         return false; // Condition not met
     }
     if (LIC8()) { //Check that the first part of the condition is met
-        for (int i = 0; i < numPoints - 2; i++) { // NUMPOINTS - 2 to ensure there's remaining data points for an iteration
-            double x1 = x[i];
-            double y1 = y[i];
-            double x2 = x[i + parameters.APTS + 1];
-            double y2 = y[i + parameters.APTS + 1];
-            double x3 = x[i + parameters.APTS + parameters.BPTS + 2];
-            double y3 = y[i + parameters.APTS + parameters.BPTS + 2];
+        for (int i = 0; i < parameters.APTS-parameters.BPTS-2; i++) { // NUMPOINTS - 2 to ensure there's remaining data points for an iteration
+            double x1 = parameters.x[i];
+            double y1 = parameters.y[i];
+            double x2 = parameters.x[i + parameters.APTS + 1];
+            double y2 = parameters.y[i + parameters.APTS + 1];
+            double x3 = parameters.x[i + parameters.APTS + parameters.BPTS + 2];
+            double y3 =parameters. y[i + parameters.APTS + parameters.BPTS + 2];
     
            
         double inf = 1e18;
