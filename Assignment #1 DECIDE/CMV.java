@@ -3,7 +3,7 @@ public class CMV {
     Parameters parameters;
 
     public CMV(Parameters parameters) {
-        this.parameters = parameters; 
+        this.parameters = parameters;
     }
 
     // Compare floating-point numbers
@@ -18,6 +18,7 @@ public class CMV {
     /**
      * Method that takes coordinates of three points & computes
      * the angle at the middle point using the Law of Cosines
+     * 
      * @param x1 - x coordinate of first point
      * @param y1 - y coordinate of first point
      * @param x2 - x coordinate of second point
@@ -37,6 +38,7 @@ public class CMV {
     /**
      * Checks if three data points construct a triangle that fulfills the triangle
      * inequality theorem
+     * 
      * @param x1 - x coordinate of first point
      * @param y1 - y coordinate of first point
      * @param x2 - x coordinate of second point
@@ -54,6 +56,7 @@ public class CMV {
 
     /**
      * Checks if three points are collinear
+     * 
      * @param x1 - x coordinate of first point
      * @param y1 - y coordinate of first point
      * @param x2 - x coordinate of second point
@@ -66,9 +69,9 @@ public class CMV {
         return ((y3 - y2) * (x2 - x1) == (y2 - y1) * (x3 - x2));
     }
 
-
     /**
      * Computes the area of a triangle using the coordinates of its three vertices
+     * 
      * @param x1 - x coordinate of first point
      * @param y1 - y coordinate of first point
      * @param x2 - x coordinate of second point
@@ -81,21 +84,23 @@ public class CMV {
         // Calculation the area of triangle
         return Math.abs(x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2) / 2.0);
     }
-    
+
     /**
      * Calculates distance between two points
+     * 
      * @param xCord1 x-coordinate for point 1
      * @param xCord2 x-coordinate for point 2
      * @param yCord1 y-coordinate for point 1
      * @param yCord2 y-coordinate for point 2
      * @return a double that is the distance
      */
-    public double calcDistance(double xCord1, double xCord2, double yCord1, double yCord2){
-        return Math.sqrt(Math.pow(xCord1-xCord2, 2) + Math.pow(yCord1-yCord2, 2));
+    public double calcDistance(double xCord1, double xCord2, double yCord1, double yCord2) {
+        return Math.sqrt(Math.pow(xCord1 - xCord2, 2) + Math.pow(yCord1 - yCord2, 2));
     }
 
     /**
      * Calculates the radius of the circumcircle of a triangle
+     * 
      * @param xCord1 x-coordinate for point 1
      * @param xCord2 x-coordinate for point 2
      * @param xCord3 x-coordinate for point 3
@@ -104,108 +109,124 @@ public class CMV {
      * @param yCord3 y-coordinate for point 3
      * @return a double that is the radius
      */
-    public double calculateCircumCircleRadius(double xCord1, double xCord2, double xCord3, double yCord1, double yCord2, double yCord3) {        
+    public double calculateCircumCircleRadius(double xCord1, double xCord2, double xCord3, double yCord1, double yCord2,
+            double yCord3) {
         double a = calcDistance(xCord1, xCord2, yCord1, yCord2);
         double b = calcDistance(xCord1, xCord3, yCord1, yCord3);
         double c = calcDistance(xCord2, xCord3, yCord2, yCord3);
-        return (a*b*c) / Math.sqrt((a+b+c)*(b+c-a)*(c+a-b)*(a+b-c));
+        return (a * b * c) / Math.sqrt((a + b + c) * (b + c - a) * (c + a - b) * (a + b - c));
     }
 
     /**
      * Checks if a point is inside a circle
+     * 
      * @param midPointOfCircle the midpoint of the circle
-     * @param radius the radius of the circle
-     * @param point the point to check
+     * @param radius           the radius of the circle
+     * @param point            the point to check
      * @return true if the point is inside the cicle, false otherwise
      */
     public boolean pointInsideCircle(double[] midPointOfCircle, double radius, double[] point) {
-        return  (calcDistance(midPointOfCircle[0], point[0], midPointOfCircle[1], point[1]) / 2) < radius;
+        return (calcDistance(midPointOfCircle[0], point[0], midPointOfCircle[1], point[1]) / 2) < radius;
     }
 
-
-    /** LIC0
-    * Sees if there exists at least one set of two consecutive data points that are a distance greater than LENGTH1 apart.
-    * @return true if it exists, false if it doesn't
-    */
-    public boolean lic0(){
-        for(int i = 0; i < parameters.numPoints-1; i++){
-            if(calcDistance(parameters.x[i], parameters.x[i+1], parameters.y[i], parameters.y[i+1]) > parameters.LENGTH1){
+    /**
+     * LIC0
+     * Sees if there exists at least one set of two consecutive data points that are
+     * a distance greater than LENGTH1 apart.
+     * 
+     * @return true if it exists, false if it doesn't
+     */
+    public boolean lic0() {
+        for (int i = 0; i < parameters.numPoints - 1; i++) {
+            if (calcDistance(parameters.x[i], parameters.x[i + 1], parameters.y[i],
+                    parameters.y[i + 1]) > parameters.LENGTH1) {
                 return true;
             }
         }
         return false;
     }
-    
-    /** LIC1
-    * Sees if there exists at least one set of three consecutive data points that cannot all be contained
-    * within or on a circle of radius RADIUS1.
-    * @return true if it exists, false if it doesn't
-    */
+
+    /**
+     * LIC1
+     * Sees if there exists at least one set of three consecutive data points that
+     * cannot all be contained
+     * within or on a circle of radius RADIUS1.
+     * 
+     * @return true if it exists, false if it doesn't
+     */
     public boolean lic1() {
         double inf = 1e18;
-        for(int i = 0; i < parameters.numPoints - 2; i++) {
-            
+        for (int i = 0; i < parameters.numPoints - 2; i++) {
+
             double x1 = parameters.x[i];
-            double x2 = parameters.x[i+1];
-            double x3 = parameters.x[i+2];
+            double x2 = parameters.x[i + 1];
+            double x3 = parameters.x[i + 2];
             double y1 = parameters.y[i];
-            double y2 = parameters.y[i+1];
-            double y3 = parameters.y[i+2];
+            double y2 = parameters.y[i + 1];
+            double y3 = parameters.y[i + 2];
 
             double minRadius = inf;
 
-            double[] midPoint1 = new double[]{x1 - x2 / 2, y1 - y2 / 2};
+            double[] midPoint1 = new double[] { x1 - x2 / 2, y1 - y2 / 2 };
             double radius1 = calcDistance(x1, x2, y1, y2) / 2;
-            double[] lastPoint1 = new double[]{x3, y3};
+            double[] lastPoint1 = new double[] { x3, y3 };
             boolean last1InCircle = pointInsideCircle(midPoint1, radius1, lastPoint1);
-            
-            if(last1InCircle && radius1 < minRadius) {
+
+            if (last1InCircle && radius1 < minRadius) {
                 minRadius = radius1;
             }
 
-            double[] midPoint2 = new double[]{x1 - x3 / 2, y1 - y3 / 2};
+            double[] midPoint2 = new double[] { x1 - x3 / 2, y1 - y3 / 2 };
             double radius2 = calcDistance(x1, x3, y1, y3) / 2;
-            double[] lastPoint2 = new double[]{x2, y2};
+            double[] lastPoint2 = new double[] { x2, y2 };
             boolean last2InCircle = pointInsideCircle(midPoint2, radius2, lastPoint2);
 
-            if(last2InCircle && radius2 < minRadius) {
+            if (last2InCircle && radius2 < minRadius) {
                 minRadius = radius2;
             }
 
-            double[] midPoint3 = new double[]{x2 - x3 / 2, y2 - y3 / 2};
+            double[] midPoint3 = new double[] { x2 - x3 / 2, y2 - y3 / 2 };
             double radius3 = calcDistance(x2, x3, y2, y3) / 2;
-            double[] lastPoint3 = new double[]{x1, y1};
+            double[] lastPoint3 = new double[] { x1, y1 };
             boolean last3InCircle = pointInsideCircle(midPoint3, radius3, lastPoint3);
 
-            if(last3InCircle && radius3 < minRadius) {
+            if (last3InCircle && radius3 < minRadius) {
                 minRadius = radius3;
             }
 
-            if(minRadius == inf) {
-                minRadius = calculateCircumCircleRadius(parameters.x[i], parameters.x[i+1], parameters.x[i+2], parameters.y[i], parameters.y[i+1], parameters.y[i+2]);
+            if (minRadius == inf) {
+                minRadius = calculateCircumCircleRadius(parameters.x[i], parameters.x[i + 1], parameters.x[i + 2],
+                        parameters.y[i], parameters.y[i + 1], parameters.y[i + 2]);
             }
 
-            if(minRadius > parameters.RADIUS1) {
+            if (minRadius > parameters.RADIUS1) {
                 return true;
             }
         }
         return false;
     }
 
-    /** LIC2
-    * There exists at least one set of three consecutive data points which form an angle such that: angle < (PI − EPSILON)
-    * or angle > (PI + EPSILON)
-    * The second of the three consecutive points is always the vertex of the angle. If either the first point or the last point 
-    * (or both) coincides with the vertex, the angle is undefined and the LIC is not satisfied by those three points.
-    * @return true if it exists, false if it doesn't
-    */
+    /**
+     * LIC2
+     * There exists at least one set of three consecutive data points which form an
+     * angle such that: angle < (PI − EPSILON)
+     * or angle > (PI + EPSILON)
+     * The second of the three consecutive points is always the vertex of the angle.
+     * If either the first point or the last point
+     * (or both) coincides with the vertex, the angle is undefined and the LIC is
+     * not satisfied by those three points.
+     * 
+     * @return true if it exists, false if it doesn't
+     */
     public boolean lic2() {
 
         for (int i = 0; i < parameters.numPoints - 2; i++) {
 
-            if (!collinear(parameters.x[i], parameters.y[i], parameters.x[i + 1], parameters.y[i + 1], parameters.x[i + 2], parameters.y[i + 2])) {
+            if (!collinear(parameters.x[i], parameters.y[i], parameters.x[i + 1], parameters.y[i + 1],
+                    parameters.x[i + 2], parameters.y[i + 2])) {
 
-                double angle = computeAngle(parameters.x[i], parameters.y[i], parameters.x[i + 1], parameters.y[i + 1], parameters.x[i + 2], parameters.y[i + 2]);
+                double angle = computeAngle(parameters.x[i], parameters.y[i], parameters.x[i + 1], parameters.y[i + 1],
+                        parameters.x[i + 2], parameters.y[i + 2]);
 
                 // check if condition is satisfied
                 if ((angle < (Math.PI - parameters.EPSILON)) || (angle > (Math.PI + parameters.EPSILON))) {
@@ -218,35 +239,40 @@ public class CMV {
     }
 
     // SKRIV FUNKTIONER NEDAN
-    /* LIC 3
-    There exists at least one set of three 
-    consecutive data points that are the vertices of a triangle
-    area greater than AREA1. */
-public boolean LIC3() {
-    for (int i = 0, j = 0; i < parameters.x.length - 2 && j < parameters.y.length - 2; i++, j++) {
-        double x1 = parameters.x[i];
-        double y1 = parameters.y[j];
-        double x2 = parameters.x[i + 1];
-        double y2 = parameters.y[j + 1];
-        double x3 = parameters.x[i + 2];
-        double y3 = parameters.y[j + 2];
-        
-        double area = calculateTriangleArea(x1, y1, x2, y2, x3, y3);
-        if (area > parameters.AREA1) {
-            return true;
-        } 
-    } return false;
-}
+    /*
+     * LIC 3
+     * There exists at least one set of three
+     * consecutive data points that are the vertices of a triangle
+     * area greater than AREA1.
+     */
+    public boolean LIC3() {
+        for (int i = 0, j = 0; i < parameters.x.length - 2 && j < parameters.y.length - 2; i++, j++) {
+            double x1 = parameters.x[i];
+            double y1 = parameters.y[j];
+            double x2 = parameters.x[i + 1];
+            double y2 = parameters.y[j + 1];
+            double x3 = parameters.x[i + 2];
+            double y3 = parameters.y[j + 2];
 
+            double area = calculateTriangleArea(x1, y1, x2, y2, x3, y3);
+            if (area > parameters.AREA1) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-    /** LIC4
+    /**
+     * LIC4
      * Check lic4 by finding one set of qPts consecutive data points that lie in
      * more than QUADS quadrants
+     * 
      * @return - True if condition is met, False otherwise
      */
     public boolean lic4() {
 
-        if (parameters.QPTS < 2 || parameters.QPTS > parameters.numPoints || parameters.QUADS < 1 || parameters.QUADS > 3) {
+        if (parameters.QPTS < 2 || parameters.QPTS > parameters.numPoints || parameters.QUADS < 1
+                || parameters.QUADS > 3) {
             return false;
         }
 
@@ -287,58 +313,74 @@ public boolean LIC3() {
         return false;
     }
 
-    /** LIC5
-     * Sees if there exists at least one set of two consecutive data points (X[i],Y[i]) and (X[j],Y[j]), such that X[j] - X[i] < 0. (where i = j-1)
+    /**
+     * LIC5
+     * Sees if there exists at least one set of two consecutive data points
+     * (X[i],Y[i]) and (X[j],Y[j]), such that X[j] - X[i] < 0. (where i = j-1)
+     * 
      * @return true if it exists, false if it doesn't
      */
-    public boolean lic5(){
-        for(int i = 0; i < parameters.numPoints-1; i++){
-            if(parameters.x[i+1] - parameters.x[i] < 0){
+    public boolean lic5() {
+        for (int i = 0; i < parameters.numPoints - 1; i++) {
+            if (parameters.x[i + 1] - parameters.x[i] < 0) {
                 return true;
             }
         }
         return false;
     }
 
-    /* LIC6
-    * There exists at least one set of N PTS consecutive data points such that at least one of the
-    * points lies a distance greater than DIST from the line joining the first and last of these N PTS
-    * points. If the first and last points of these N PTS are identical, then the calculated distance
-    * to compare with DIST will be the distance from the coincident point to all other points of
-    * the N PTS consecutive points. The condition is not met when NUMPOINTS <3.
-    * (3 ≤N PTS ≤NUMPOINTS), (0 ≤DIST) 
-    * @return - True if condition is met, False otherwise
-    */
+    /*
+     * LIC6
+     * There exists at least one set of N PTS consecutive data points such that at
+     * least one of the
+     * points lies a distance greater than DIST from the line joining the first and
+     * last of these N PTS
+     * points. If the first and last points of these N PTS are identical, then the
+     * calculated distance
+     * to compare with DIST will be the distance from the coincident point to all
+     * other points of
+     * the N PTS consecutive points. The condition is not met when NUMPOINTS <3.
+     * (3 ≤N PTS ≤NUMPOINTS), (0 ≤DIST)
+     * 
+     * @return - True if condition is met, False otherwise
+     */
     public boolean lic6() {
-        if( 3 < parameters.numPoints){
-            for(int i = 0; i < parameters.numPoints - parameters.NPTS; i++) {
-                if(parameters.x[i] == parameters.x[i+parameters.NPTS] && parameters.y[i] == parameters.y[i+parameters.NPTS]) {
-                    double distBetweenPoints = Math.sqrt(Math.pow(parameters.x[i]-parameters.x[i+parameters.NPTS], 2) + Math.pow(parameters.y[i]-parameters.y[i+parameters.NPTS], 2));
-                        if(parameters.DIST < distBetweenPoints) {
-                            return true;
-                        }
-                }
-                else {
-                    for(int j = i; j < i+parameters.NPTS; j++ ) {
-                        double a = (parameters.y[i] - parameters.y[i+parameters.NPTS]);
-                        double b = (parameters.x[i+parameters.NPTS] - parameters.x[i]);
-                        double c = (parameters.x[i] * parameters.y[i+parameters.NPTS] - parameters.y[i] * parameters.x[i+parameters.NPTS]);
-                        double distFromLineToPoint =  Math.abs(((a * parameters.x[j] + b * parameters.y[j] + c) / Math.sqrt(Math.pow(a,2) + Math.pow(b,2))));
-                        if(parameters.DIST < distFromLineToPoint) {
+        if (3 < parameters.numPoints) {
+            for (int i = 0; i < parameters.numPoints - parameters.NPTS; i++) {
+                if (parameters.x[i] == parameters.x[i + parameters.NPTS]
+                        && parameters.y[i] == parameters.y[i + parameters.NPTS]) {
+                    double distBetweenPoints = Math
+                            .sqrt(Math.pow(parameters.x[i] - parameters.x[i + parameters.NPTS], 2)
+                                    + Math.pow(parameters.y[i] - parameters.y[i + parameters.NPTS], 2));
+                    if (parameters.DIST < distBetweenPoints) {
+                        return true;
+                    }
+                } else {
+                    for (int j = i; j < i + parameters.NPTS; j++) {
+                        double a = (parameters.y[i] - parameters.y[i + parameters.NPTS]);
+                        double b = (parameters.x[i + parameters.NPTS] - parameters.x[i]);
+                        double c = (parameters.x[i] * parameters.y[i + parameters.NPTS]
+                                - parameters.y[i] * parameters.x[i + parameters.NPTS]);
+                        double distFromLineToPoint = Math.abs(((a * parameters.x[j] + b * parameters.y[j] + c)
+                                / Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2))));
+                        if (parameters.DIST < distFromLineToPoint) {
                             return true;
                         }
                     }
                 }
-            }   
+            }
         }
         return false;
     }
 
-
-    /* LIC7
-     * There exists at least one set of two data points separated by exactly K PTS consecutive 
-     * intervening points that are a distance greater than the length, LENGTH1, apart. 
-     * The condition is not met when NUMPOINTS < 3. 
+    /*
+     * LIC7
+     * There exists at least one set of two data points separated by exactly K PTS
+     * consecutive
+     * intervening points that are a distance greater than the length, LENGTH1,
+     * apart.
+     * The condition is not met when NUMPOINTS < 3.
+     * 
      * @return true if it exists, false if it doesn't
      */
     public boolean lic7() {
@@ -363,89 +405,101 @@ public boolean LIC3() {
         return false;
     }
 
-    /** LIC8
-     * Checks to see if there exists at least one set of three data points separated by exactly A PTS and B PTS 
-     * consecutive intervening points, respectively, that cannot be contained within or on a circle of radius RADIUS1. 
+    /**
+     * LIC8
+     * Checks to see if there exists at least one set of three data points separated
+     * by exactly A PTS and B PTS
+     * consecutive intervening points, respectively, that cannot be contained within
+     * or on a circle of radius RADIUS1.
      * The condition is not met when NUMPOINTS < 5.
+     * 
      * @return true if it exists, false if it doesn't
      *
      */
-public boolean LIC8() {
-    /*CONDITION-CHECKS
-    // Check if NUMPOINTS is less than 5
-    if (numPoints < 5) {
-        return false; // Condition not met
+    public boolean LIC8() {
+        /*
+         * CONDITION-CHECKS
+         * // Check if NUMPOINTS is less than 5
+         * if (numPoints < 5) {
+         * return false; // Condition not met
+         * }
+         * // Check if A and B are less than 1
+         * if (parameters.APTS < 1 || parameters.BPTS < 1) {
+         * return false; // Condition not met
+         * }
+         * // Check if A + B is greater than NUMPOINTS - 3
+         * if (parameters.APTS + parameters.BPTS > numPoints - 3) {
+         * return false; // Condition not met
+         * // }
+         * /* Check if there exists at least one set of three data points separated by
+         * exactly A_PTS and B_PTS consecutive intervening points, respectively,
+         * that cannot be contained within or on a circle of radius RADIUS1
+         */
+        for (int i = 0; i < parameters.numPoints - parameters.APTS - parameters.BPTS - 2; i++) { // NUMPOINTS - 2 to
+                                                                                                 // ensure there's
+                                                                                                 // remaining data
+                                                                                                 // points for an
+                                                                                                 // iteration
+            double x1 = parameters.x[i];
+            double y1 = parameters.y[i];
+            double x2 = parameters.x[i + parameters.APTS + 1];
+            double y2 = parameters.y[i + parameters.APTS + 1];
+            double x3 = parameters.x[i + parameters.APTS + parameters.BPTS + 2];
+            double y3 = parameters.y[i + parameters.APTS + parameters.BPTS + 2];
+
+            double inf = 1e18;
+            double minRadius = inf;
+
+            double[] midPoint1 = new double[] { x1 - x2 / 2, y1 - y2 / 2 };
+            double radius1 = calcDistance(x1, x2, y1, y2) / 2;
+            double[] lastPoint1 = new double[] { x3, y3 };
+            boolean last1InCircle = pointInsideCircle(midPoint1, radius1, lastPoint1);
+
+            if (last1InCircle && radius1 < minRadius) {
+                minRadius = radius1;
+            }
+
+            double[] midPoint2 = new double[] { x1 - x3 / 2, y1 - y3 / 2 };
+            double radius2 = calcDistance(x1, x3, y1, y3) / 2;
+            double[] lastPoint2 = new double[] { x2, y2 };
+            boolean last2InCircle = pointInsideCircle(midPoint2, radius2, lastPoint2);
+
+            if (last2InCircle && radius2 < minRadius) {
+                minRadius = radius2;
+            }
+
+            double[] midPoint3 = new double[] { x2 - x3 / 2, y2 - y3 / 2 };
+            double radius3 = calcDistance(x2, x3, y2, y3) / 2;
+            double[] lastPoint3 = new double[] { x1, y1 };
+            boolean last3InCircle = pointInsideCircle(midPoint3, radius3, lastPoint3);
+
+            if (last3InCircle && radius3 < minRadius) {
+                minRadius = radius3;
+            }
+
+            if (minRadius == inf) {
+                minRadius = calculateCircumCircleRadius(x1, x2, x3, y1, y2, y3);
+            }
+
+            if (minRadius > parameters.RADIUS1) {
+                return true;
+            }
+        }
+        return false;
     }
-    // Check if A and B are less than 1
-    if (parameters.APTS < 1 || parameters.BPTS < 1) {
-        return false; // Condition not met
-    }
-    // Check if A + B is greater than NUMPOINTS - 3
-    if (parameters.APTS + parameters.BPTS > numPoints - 3) {
-        return false; // Condition not met
-    // }
-    /* Check if there exists at least one set of three data points separated by 
-    exactly A_PTS and B_PTS consecutive intervening points, respectively,
-    that cannot be contained within or on a circle of radius RADIUS1*/
-    for (int i = 0; i < parameters.numPoints - parameters.APTS-parameters.BPTS-2; i++) { // NUMPOINTS - 2 to ensure there's remaining data points for an iteration
-        double x1 = parameters.x[i];
-        double y1 = parameters.y[i];
-        double x2 = parameters.x[i + parameters.APTS + 1];
-        double y2 = parameters.y[i + parameters.APTS + 1];
-        double x3 = parameters.x[i + parameters.APTS + parameters.BPTS + 2];
-        double y3 = parameters.y[i + parameters.APTS + parameters.BPTS + 2];
 
-
-
-        double inf = 1e18;
-        double minRadius = inf;
-
-        double[] midPoint1 = new double[]{x1 - x2 / 2, y1 - y2 / 2};
-        double radius1 = calcDistance(x1, x2, y1, y2) / 2;
-        double[] lastPoint1 = new double[]{x3, y3};
-        boolean last1InCircle = pointInsideCircle(midPoint1, radius1, lastPoint1);
-        
-        if(last1InCircle && radius1 < minRadius) {
-            minRadius = radius1;
-        }
-
-        double[] midPoint2 = new double[]{x1 - x3 / 2, y1 - y3 / 2};
-        double radius2 = calcDistance(x1, x3, y1, y3) / 2;
-        double[] lastPoint2 = new double[]{x2, y2};
-        boolean last2InCircle = pointInsideCircle(midPoint2, radius2, lastPoint2);
-
-        if(last2InCircle && radius2 < minRadius) {
-            minRadius = radius2;
-        }
-
-        double[] midPoint3 = new double[]{x2 - x3 / 2, y2 - y3 / 2};
-        double radius3 = calcDistance(x2, x3, y2, y3) / 2;
-        double[] lastPoint3 = new double[]{x1, y1};
-        boolean last3InCircle = pointInsideCircle(midPoint3, radius3, lastPoint3);
-
-        if(last3InCircle && radius3 < minRadius) {
-            minRadius = radius3;
-        }
-
-        if(minRadius == inf) {
-            minRadius = calculateCircumCircleRadius(x1, x2, x3, y1, y2, y3);
-        }
-
-        if(minRadius > parameters.RADIUS1) {
-            return true;
-        } 
-    } return false;
-    }
-   
-    /** LIC9
+    /**
+     * LIC9
      * Checks lic9 by finding one set of three points separated by exactly C_PTS &
      * D_PTS consecutive intervening points respectively that form an angle such
      * that angle < (PI - Epsilon) or angle > (PI + Epsilon)
+     * 
      * @return - True if condition is met, False otherwise
      */
     public boolean lic9() {
 
-        if (parameters.numPoints < 5 || parameters.CPTS < 1 || parameters.DPTS < 1 || parameters.CPTS+ parameters.DPTS > parameters.numPoints - 3) {
+        if (parameters.numPoints < 5 || parameters.CPTS < 1 || parameters.DPTS < 1
+                || parameters.CPTS + parameters.DPTS > parameters.numPoints - 3) {
             return false;
         }
 
@@ -480,20 +534,26 @@ public boolean LIC8() {
         return false;
     }
 
-    /** LIC10
-     * Sees if there exists at least one set of three data points seperated by exactly E_PTS and F_PTS consecutive intervening points, 
-     * respectively, that are the vertices of a triangle with area greater than AREA1. The condition is not met when NUMPOINTS < 5
+    /**
+     * LIC10
+     * Sees if there exists at least one set of three data points seperated by
+     * exactly E_PTS and F_PTS consecutive intervening points,
+     * respectively, that are the vertices of a triangle with area greater than
+     * AREA1. The condition is not met when NUMPOINTS < 5
+     * 
      * @return true if it exists, false if it doesn't
      */
-    public boolean lic10(){
-        if(parameters.numPoints >= 5){
-            for(int i = 0; i < parameters.numPoints-parameters.EPTS-parameters.FPTS - 2; i++){
+    public boolean lic10() {
+        if (parameters.numPoints >= 5) {
+            for (int i = 0; i < parameters.numPoints - parameters.EPTS - parameters.FPTS - 2; i++) {
                 int EPoint = i + parameters.EPTS + 1;
                 int FPoint = i + EPoint + parameters.FPTS + 1;
-                double verticeE = calcDistance(parameters.x[i], parameters.x[EPoint], parameters.y[i], parameters.y[EPoint]);
-                double verticeF = calcDistance(parameters.x[EPoint], parameters.x[FPoint], parameters.y[EPoint], parameters.y[FPoint]);
+                double verticeE = calcDistance(parameters.x[i], parameters.x[EPoint], parameters.y[i],
+                        parameters.y[EPoint]);
+                double verticeF = calcDistance(parameters.x[EPoint], parameters.x[FPoint], parameters.y[EPoint],
+                        parameters.y[FPoint]);
 
-                if((verticeE * verticeF)/2 > parameters.AREA1){
+                if ((verticeE * verticeF) / 2 > parameters.AREA1) {
                     return true;
                 }
             }
@@ -501,17 +561,21 @@ public boolean LIC8() {
         return false;
     }
 
-    /* There exists at least one set of two data points, (X[i],Y[i]) and (X[j],Y[j]), separated by
-    * exactly G PTS consecutive intervening points, such that X[j] - X[i] <0. (where i <j ) The
-    * condition is not met when NUMPOINTS <3.
-    * 1 ≤G PTS ≤NUMPOINTS−2 
-    * @return - True if condition is met, False otherwise
-    */
+    /*
+     * There exists at least one set of two data points, (X[i],Y[i]) and
+     * (X[j],Y[j]), separated by
+     * exactly G PTS consecutive intervening points, such that X[j] - X[i] <0.
+     * (where i <j ) The
+     * condition is not met when NUMPOINTS <3.
+     * 1 ≤G PTS ≤NUMPOINTS−2
+     * 
+     * @return - True if condition is met, False otherwise
+     */
     public boolean lic11() {
 
-        if(parameters.numPoints > 3) {
-            for(int i = 0; i < parameters.numPoints - parameters.GPTS; i++) {
-                if(parameters.x[i+parameters.GPTS] - parameters.x[i] < 0 ) {
+        if (parameters.numPoints > 3) {
+            for (int i = 0; i < parameters.numPoints - parameters.GPTS; i++) {
+                if (parameters.x[i + parameters.GPTS] - parameters.x[i] < 0) {
                     return true;
                 }
             }
@@ -520,13 +584,20 @@ public boolean LIC8() {
         return false;
     }
 
-    /** LIC12
-     * There exists at least one set of two data points, separated by exactly K PTS consecutive 
-     * intervening points, which are a distance greater than the length, LENGTH1, apart. 
-     * In addition, there exists at least one set of two data points (which can be the same or different 
-     * from the two data points just mentioned), separated by exactly K PTS consecutive intervening points, 
-     * that are a distance less than the length, LENGTH2, apart. Both parts must be true for the LIC to be true. 
+    /**
+     * LIC12
+     * There exists at least one set of two data points, separated by exactly K PTS
+     * consecutive
+     * intervening points, which are a distance greater than the length, LENGTH1,
+     * apart.
+     * In addition, there exists at least one set of two data points (which can be
+     * the same or different
+     * from the two data points just mentioned), separated by exactly K PTS
+     * consecutive intervening points,
+     * that are a distance less than the length, LENGTH2, apart. Both parts must be
+     * true for the LIC to be true.
      * The condition is not met when NUMPOINTS < 3.
+     * 
      * @return true if it exists, false if it doesn't
      */
 
@@ -544,8 +615,8 @@ public boolean LIC8() {
         boolean check2 = false;
 
         for (int i = 0; i < parameters.numPoints - parameters.KPTS - 1; i++) {
-            double distance = calcDistance(parameters.x[i],parameters.x[i + parameters.KPTS + 1], parameters.y[i],
-            parameters.y[i + parameters.KPTS + 1]);
+            double distance = calcDistance(parameters.x[i], parameters.x[i + parameters.KPTS + 1], parameters.y[i],
+                    parameters.y[i + parameters.KPTS + 1]);
 
             if (distance > parameters.LENGTH1) {
                 check1 = true;
@@ -564,18 +635,26 @@ public boolean LIC8() {
 
     }
 
-    /** LIC13
-     * There exists at least one set of three data points, separated by exactly A PTS and B PTS 
-     * consecutive intervening points, respectively, that cannot be contained within or on a circle 
-     * of radius RADIUS1. In addition, there exists at least one set of three data points 
-     * (which can be the same or different from the three data points just mentioned) separated by 
-     * exactly A PTS and B PTS consecutive intervening points, respectively, that can be contained in 
-     * or on a circle of radius RADIUS2. Both parts must be true for the LIC to be true. 
+    /**
+     * LIC13
+     * There exists at least one set of three data points, separated by exactly A
+     * PTS and B PTS
+     * consecutive intervening points, respectively, that cannot be contained within
+     * or on a circle
+     * of radius RADIUS1. In addition, there exists at least one set of three data
+     * points
+     * (which can be the same or different from the three data points just
+     * mentioned) separated by
+     * exactly A PTS and B PTS consecutive intervening points, respectively, that
+     * can be contained in
+     * or on a circle of radius RADIUS2. Both parts must be true for the LIC to be
+     * true.
      * The condition is not met when NUMPOINTS < 5.
+     * 
      * @return true if it exists, false if it doesn't
      */
     public boolean LIC13() {
-        //CONDITION-CHECKS
+        // CONDITION-CHECKS
         // Check if NUMPOINTS is less than 5
         if (parameters.numPoints < 5) {
             return false; // Condition not met
@@ -584,63 +663,63 @@ public boolean LIC8() {
         if (parameters.RADIUS2 < 0) {
             return false; // Condition not met
         }
-        if (LIC8()) { //Check that the first part of the condition is met
-            for (int i = 0; i < parameters.APTS-parameters.BPTS-2; i++) { // NUMPOINTS - 2 to ensure there's remaining data points for an iteration
+        if (LIC8()) { // Check that the first part of the condition is met
+            for (int i = 0; i < parameters.APTS - parameters.BPTS - 2; i++) { // NUMPOINTS - 2 to ensure there's
+                                                                              // remaining data points for an iteration
                 double x1 = parameters.x[i];
                 double y1 = parameters.y[i];
                 double x2 = parameters.x[i + parameters.APTS + 1];
                 double y2 = parameters.y[i + parameters.APTS + 1];
                 double x3 = parameters.x[i + parameters.APTS + parameters.BPTS + 2];
-                double y3 =parameters. y[i + parameters.APTS + parameters.BPTS + 2];
-        
-               
-            double inf = 1e18;
-            double minRadius = inf;
-    
-            double[] midPoint1 = new double[]{x1 - x2 / 2, y1 - y2 / 2};
-            double radius1 = calcDistance(x1, x2, y1, y2) / 2;
-            double[] lastPoint1 = new double[]{x3, y3};
-            boolean last1InCircle = pointInsideCircle(midPoint1, radius1, lastPoint1);
-            
-            if(last1InCircle && radius1 < minRadius) {
-                minRadius = radius1;
-            }
-    
-            double[] midPoint2 = new double[]{x1 - x3 / 2, y1 - y3 / 2};
-            double radius2 = calcDistance(x1, x3, y1, y3) / 2;
-            double[] lastPoint2 = new double[]{x2, y2};
-            boolean last2InCircle = pointInsideCircle(midPoint2, radius2, lastPoint2);
-    
-            if(last2InCircle && radius2 < minRadius) {
-                minRadius = radius2;
-            }
-    
-            double[] midPoint3 = new double[]{x2 - x3 / 2, y2 - y3 / 2};
-            double radius3 = calcDistance(x2, x3, y2, y3) / 2;
-            double[] lastPoint3 = new double[]{x1, y1};
-            boolean last3InCircle = pointInsideCircle(midPoint3, radius3, lastPoint3);
-    
-            if(last3InCircle && radius3 < minRadius) {
-                minRadius = radius3;
-            }
-    
-            if(minRadius == inf) {
-                minRadius = calculateCircumCircleRadius(x1, x2, x3, y1, y2, y3);
-            }
-    
-            if(minRadius > parameters.RADIUS1) {
-                return true;
-            } 
-        } 
-        } return false;
-    } 
-    
+                double y3 = parameters.y[i + parameters.APTS + parameters.BPTS + 2];
 
+                double inf = 1e18;
+                double minRadius = inf;
+
+                double[] midPoint1 = new double[] { x1 - x2 / 2, y1 - y2 / 2 };
+                double radius1 = calcDistance(x1, x2, y1, y2) / 2;
+                double[] lastPoint1 = new double[] { x3, y3 };
+                boolean last1InCircle = pointInsideCircle(midPoint1, radius1, lastPoint1);
+
+                if (last1InCircle && radius1 < minRadius) {
+                    minRadius = radius1;
+                }
+
+                double[] midPoint2 = new double[] { x1 - x3 / 2, y1 - y3 / 2 };
+                double radius2 = calcDistance(x1, x3, y1, y3) / 2;
+                double[] lastPoint2 = new double[] { x2, y2 };
+                boolean last2InCircle = pointInsideCircle(midPoint2, radius2, lastPoint2);
+
+                if (last2InCircle && radius2 < minRadius) {
+                    minRadius = radius2;
+                }
+
+                double[] midPoint3 = new double[] { x2 - x3 / 2, y2 - y3 / 2 };
+                double radius3 = calcDistance(x2, x3, y2, y3) / 2;
+                double[] lastPoint3 = new double[] { x1, y1 };
+                boolean last3InCircle = pointInsideCircle(midPoint3, radius3, lastPoint3);
+
+                if (last3InCircle && radius3 < minRadius) {
+                    minRadius = radius3;
+                }
+
+                if (minRadius == inf) {
+                    minRadius = calculateCircumCircleRadius(x1, x2, x3, y1, y2, y3);
+                }
+
+                if (minRadius > parameters.RADIUS1) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     /**
      * Checks lic14 by finding one set of three points separated by exactly E_PTS &
      * F_PTS consecutive intervening points, respectively, that are three vertices
      * of a triangle with area greater than AREA1 and with area less than AREA2
+     * 
      * @return - True if condition is met, False otherwise
      */
     public boolean lic14() {
@@ -678,5 +757,5 @@ public boolean LIC8() {
         }
         return false;
     }
-    
+
 }
