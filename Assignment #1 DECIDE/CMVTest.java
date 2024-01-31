@@ -108,8 +108,46 @@ public class CMVTest {
 
     }
 
+    //TESTS FOR LIC3
     @Test
-    public void testLic3(){
+    public void testLIC3TriangleWithGreaterAreaThanAREA1() { //test for LIC3
+        // Test case 1: Triangle with area greater than AREA1
+        //should return true
+        double[] x1 = {0.0, 1.0, 2.0};
+        double[] y1 = {0.0, 1.0, 0.0};
+        double area1 = 0.5; // smaller than the actual area
+        emptyCMV.parameters.numPoints = x1.length;
+        emptyCMV.parameters.AREA1 = area1;
+        emptyCMV.parameters.x = x1;
+        emptyCMV.parameters.y = y1;
+        assertTrue(emptyCMV.LIC3());
+    }
+
+    @Test
+    public void testLIC3TriangleWithLessAreaThanAREA1() { //test for LIC3
+        // Test case 2: Triangle with area less than AREA1
+        // should return false
+        double[] x2 = {0.0, 1.0, 2.0};
+        double[] y2 = {0.0, 0.0, 0.0};
+        double area2 = 2.0; // larger than the actual area
+        emptyCMV.parameters.AREA1 = area2;
+        emptyCMV.parameters.numPoints = x2.length;
+        emptyCMV.parameters.x = x2;
+        emptyCMV.parameters.y = y2;
+        assertFalse(emptyCMV.LIC3());
+    }
+    @Test
+    public void testLIC3TriangleWithGreaterAreaThanAREA1AndNotEnoughPoints() { //test for LIC3
+        // Test case 3: Not enough points for a triangle
+        //should return false
+        double[] x3 = {0.0, 1.0};
+        double[] y3 = {0.0, 1.0};
+        double area3 = 1.0;
+        emptyCMV.parameters.numPoints = x3.length;
+        emptyCMV.parameters.x = x3;
+        emptyCMV.parameters.y = y3;
+        emptyCMV.parameters.AREA1 = area3;
+        assertFalse(emptyCMV.LIC3());
     }
 
     /**
@@ -281,9 +319,77 @@ public class CMVTest {
 
     }
 
-    @Test
-    public void testLic8(){
-    }
+   //TESTS FOR LIC8
+   @Test
+   public void testLIC8ConditionsMetandCannotBeContained() {
+       // Test case 1: Conditions met, data points cannot be contained in or on a circle of radius RADIUS1
+       double[] x1 = {0.0, 1.0, 2.0, 3.0, 4.0};
+       double[] y1 = {0.0, 1.0, 2.0, 1.0, 0.0};
+       emptyCMV.parameters.x = x1;
+       emptyCMV.parameters.y = y1;
+       int A = 1;
+       int B = 1;
+       emptyCMV.parameters.APTS = A;
+       emptyCMV.parameters.BPTS = B;
+       int NUMPOINTS = x1.length;
+       emptyCMV.parameters.numPoints = NUMPOINTS;
+       double RADIUS1 = 0.5;
+       emptyCMV.parameters.RADIUS1 = RADIUS1;
+       //assertFalse(emptyCMV.LIC8());
+       assertTrue(emptyCMV.LIC8());
+   }
+   @Test
+   public void testLIC8ConditionNotMetnumPointsLessThan5() {
+       // Test case 2: Conditions not met, NUMPOINTS < 5
+       double[] x2 = {0.0, 1.0, 2.0};
+       double[] y2 = {0.0, 1.0, 0.0};
+       emptyCMV.parameters.x = x2;
+       emptyCMV.parameters.y = y2;
+       int A2 = 2;
+       int B2 = 1;
+       emptyCMV.parameters.APTS = A2;
+       emptyCMV.parameters.BPTS = B2;
+       int NUMPOINTS2 = 3; // Less than 5
+       emptyCMV.parameters.numPoints = NUMPOINTS2;
+       double RADIUS1_2 = 0.5;
+       emptyCMV.parameters.RADIUS1 = RADIUS1_2;
+       assertFalse(emptyCMV.LIC8());
+   }
+   @Test
+   public void testLIC8nConditionNotMetAandBLessThanOne() {
+       // Test case 3: Conditions not met, A or B is less than 1
+       double[] x3 = {0.0, 1.0, 2.0, 3.0, 4.0};
+       double[] y3 = {0.0, 1.0, 0.0, 1.0, 0.0};
+       emptyCMV.parameters.x = x3;
+       emptyCMV.parameters.y = y3;
+       int A3 = 0; // Less than 1
+       int B3 = 2;
+       emptyCMV.parameters.APTS = A3;
+       emptyCMV.parameters.BPTS = B3;
+       int NUMPOINTS3 = 5;
+       emptyCMV.parameters.numPoints = NUMPOINTS3;
+       double RADIUS1_3 = 0.5;
+       emptyCMV.parameters.RADIUS1 = RADIUS1_3;
+       assertFalse(emptyCMV.LIC8());
+   }
+
+   @Test
+   public void testLIC8ConditionNotMetAplusB() {
+       // Test case 4: Conditions not met, A + B > NUMPOINTS - 3
+       double[] x4 = {0.0, 1.0, 2.0, 3.0, 4.0};
+       double[] y4 = {0.0, 1.0, 0.0, 1.0, 0.0};
+       emptyCMV.parameters.x = x4;
+       emptyCMV.parameters.y = y4;
+       int A4 = 3;
+       int B4 = 2;
+       emptyCMV.parameters.APTS = A4;
+       emptyCMV.parameters.BPTS = B4;
+       int NUMPOINTS4 = 5; // A + B > 2
+       emptyCMV.numPoints = NUMPOINTS4;
+       double RADIUS1_4 = 0.5;
+       emptyCMV.parameters.RADIUS1 = RADIUS1_4;
+       assertFalse(emptyCMV.LIC8());
+   }
 
     //@Test
     //public void checkLic9WithCorrectlySeparatedPoints() {
@@ -473,10 +579,85 @@ public class CMVTest {
         assertTrue(emptyCMV.lic12());
     }
 
-    @Test
-    public void testLic13(){
-    }
-
+      //TESTS FOR LIC8
+      @Test
+      public void testLIC13ConditionsMetPointsCannotContained() {
+          // Test case 1: Conditions met, data points cannot be contained in or on a circle of radius RADIUS1
+          double[] x1 = {0.0, 1.0, 2.0, 3.0, 4.0};
+          double[] y1 = {0.0, 1.0, 0.0, 1.0, 0.0};
+          emptyCMV.parameters.x = x1;
+          emptyCMV.parameters.y = y1;
+          int A1 = 1;
+          int B1 = 1;
+          emptyCMV.parameters.APTS = A1;
+          emptyCMV.parameters.BPTS = B1;
+          int NUMPOINTS = 5;
+          emptyCMV.parameters.numPoints = NUMPOINTS;
+          double RADIUS1 = 0.5;
+          emptyCMV.parameters.RADIUS1 = RADIUS1;
+          double RADIUS2 = 1.0;
+          emptyCMV.parameters.RADIUS2 = RADIUS2;
+          assertTrue(emptyCMV.LIC13());
+      }
+      @Test
+      public void testLIC13ConditionsNotMetnumPointsLessThanFive() {
+          // Test case 2: Conditions not met, NUMPOINTS < 5
+          double[] x2 = {0.0, 1.0, 2.0};
+          double[] y2 = {0.0, 1.0, 0.0};
+          emptyCMV.parameters.x = x2;
+          emptyCMV.parameters.y = y2;
+          int A2 = 2;
+          int B2 = 1;
+          emptyCMV.parameters.APTS = A2;
+          emptyCMV.parameters.BPTS = B2;
+          int NUMPOINTS2 = 3; // Less than 5
+          emptyCMV.parameters.numPoints = NUMPOINTS2;
+          double RADIUS1_2 = 0.5;
+          emptyCMV.parameters.RADIUS1 = RADIUS1_2;
+          double RADIUS2_2 = 1.0;
+          emptyCMV.parameters.RADIUS2 = RADIUS2_2;
+          assertFalse(emptyCMV.LIC13());
+      }
+      @Test
+      public void testLIC13ConditionsNotMetAandBLessThanOne() {
+          // Test case 3: Conditions not met, A or B is less than 1
+          double[] x3 = {0.0, 1.0, 2.0, 3.0, 4.0};
+          double[] y3 = {0.0, 1.0, 0.0, 1.0, 0.0};
+          emptyCMV.parameters.x = x3;
+          emptyCMV.parameters.y = y3;
+          int A3 = 0; // Less than 1
+          int B3 = 2;
+          emptyCMV.parameters.APTS = A3;
+          emptyCMV.parameters.BPTS = B3;
+          int NUMPOINTS3 = 5;
+          emptyCMV.parameters.numPoints = NUMPOINTS3;
+          double RADIUS1_3 = 0.5;
+          emptyCMV.parameters.RADIUS1 = RADIUS1_3;
+          double RADIUS2_3 = -1.0;
+          emptyCMV.parameters.RADIUS2 = RADIUS2_3;
+          assertFalse(emptyCMV.LIC13());
+      }
+          
+      @Test
+      public void testLIC13ConditionsNotMetAplusB() {
+          // Test case 4: Conditions not met, A + B > NUMPOINTS - 3
+          double[] x4 = {0.0, 1.0, 2.0, 3.0, 4.0};
+          double[] y4 = {0.0, 1.0, 0.0, 1.0, 0.0};
+          emptyCMV.parameters.x = x4;
+          emptyCMV.parameters.y = y4;
+          int A4 = 3;
+          int B4 = 2;
+          emptyCMV.parameters.APTS = A4;
+          emptyCMV.parameters.BPTS = B4;
+          int NUMPOINTS4 = 5; // A + B > 2
+          emptyCMV.parameters.numPoints = NUMPOINTS4;
+          double RADIUS1_4 = 0.5;
+          emptyCMV.parameters.RADIUS1 = RADIUS1_4;
+          double RADIUS2_4 = 1.0;
+          emptyCMV.parameters.RADIUS2 = RADIUS2_4;
+          assertFalse(emptyCMV.LIC13());
+      }
+  
     @Test
     public void checkLic14WithCorrectlySeparatedPoints() {
 
