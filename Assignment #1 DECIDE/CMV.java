@@ -1,9 +1,31 @@
 public class CMV {
 
     Parameters parameters;
+    public boolean[] cmv;
 
     public CMV(Parameters parameters) {
         this.parameters = parameters; 
+        this.cmv = new boolean[]{
+            lic0(),
+            lic1(),
+            lic2(),
+            LIC3(),
+            lic4(),
+            lic5(),
+            lic6(),
+            lic7(),
+            LIC8(),
+            lic9(),
+            lic10(),
+            lic11(),
+            lic12(),
+            LIC13(),
+            lic14()
+        };
+    }
+
+    public boolean[] getCmv() {
+        return cmv;
     }
 
     // Compare floating-point numbers
