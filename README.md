@@ -87,46 +87,46 @@ The input Logical Connector Matrix (LCM), defines which individual LIC’s must 
 Another input, the Preliminary Unlocking Vector (PUV) represents which LIC actually matters in this particular launch determination. Each element of the UV indicates how to combine the PUM values to form the corresponding element of the Final Unlocking Vecktor (FUV), an 15-element vector. If, and only if, all the values in the FUV are true, should the launch-unlock signal be generated.
 
 ## Roadmap 
-- Create main file [X]
-- Add all LIC's [X]
-- Add testing to all LIC's [X]
-- Refactor code [X]
-- Add PUM [X]
-- Add FUV []
-- Add Launch []
-- Add overarching tests []
-- Add README [X]
+- [X] Create main file
+- [X] Add all LIC's
+- [X] Add testing to all LIC's 
+- [X] Refactor code 
+- [X] Add PUM 
+- [] Add FUV 
+- [X] Add Launch 
+- [X] Add overarching tests 
+- [X] Add README 
 
 ## Statement of contributions:
-Apart from these tasks each member had, we also helped each other wherever needed. Furthermore, we all discussed different problems and solutions to them with each other to make sure everyone understood the tasks at hand.
+Apart from these tasks each member had, we also helped each other wherever needed. Furthermore, we all discussed different problems and solutions to them with each other to make sure everyone understood the tasks at hand. We feel that we have done exemplary well because of how well our communication and cooperation has been. We have been able to solve this task together in a way that has made us all have important roles within the project.
 
 ### Alexander Widman - [AlexWidman](https://github.com/AlexWidman) :
-Co-author for the main LaunchInterceptor.java file and for files Parameters.java, Connectors.java & CompType.java.
-Wrote code for LICs 0, 5, 10 with tests.
-Co-author for refactoring all of the code.
-Co-author for README.md and other documentation.
+- Co-author for the main LaunchInterceptor.java file and for files Parameters.java, Connectors.java & CompType.java.
+- Wrote code for LICs 0, 5, 10 with tests.
+- Co-author for refactoring all of the code.
+- Co-author for README.md and other documentation.
 
 ### Alva Sundström - [alvasundstrom](https://github.com/alvasundstrom) :
-Co-author for the main LaunchInterceptor.java file and for files Parameters.java, Connectors.java & CompType.java.
-Wrote code for LICs 1, 6, 11 with tests.
-Wrote general code for unit-tests.
-Co-author for refactoring all of the code.
-Wrote PUM.java with tests.
+- Co-author for the main LaunchInterceptor.java file and for files Parameters.java, Connectors.java & CompType.java.
+- Wrote code for LICs 1, 6, 11 with tests.
+- Wrote general code for unit-tests.
+- Co-author for refactoring all of the code.
+- Wrote PUM.java with tests.
 
 ### Annie Kihlert - [kihlert](https://github.com/kihlert) :
-Co-author for the main LaunchInterceptor.java file and for files Parameters.java, Connectors.java & CompType.java.
-Wrote LICs 3, 8, 13 with tests.
-Co-author for refactoring all of the code.
-Co-author for README.md and other documentation.
+- Co-author for the main LaunchInterceptor.java file and for files Parameters.java, Connectors.java & CompType.java.
+- Wrote LICs 3, 8, 13 with tests.
+- Co-author for refactoring all of the code.
+- Co-author for README.md and other documentation.
 
 ### Milad Sarbandi Farhani - [M1l0d](https://github.com/M1l0d) :
-Co-author for the main LaunchInterceptor.java file and for files Parameters.java, Connectors.java & CompType.java.
-Wrote code for LICs 2, 7, 12 with tests.
-Co-author for refactoring all of the code.
-Wrote final decide() function and main test cases.
+- Co-author for the main LaunchInterceptor.java file and for files Parameters.java, Connectors.java & CompType.java.
+- Wrote code for LICs 2, 7, 12 with tests.
+- Co-author for refactoring all of the code.
+- Wrote final decide() function and main test cases.
 
 ### Tomas Weldetinsae - [tywe00](https://github.com/tywe00) :
-Co-author for the main LaunchInterceptor.java file and for files Parameters.java, Connectors.java & CompType.java.
-Wrote code for LICs 4, 9, 14 with tests.
-Co-author for refactoring all of the code.
-Wrote FUV.java with tests.
+- Co-author for the main LaunchInterceptor.java file and for files Parameters.java, Connectors.java & CompType.java.
+- Wrote code for LICs 4, 9, 14 with tests.
+- Co-author for refactoring all of the code.
+- Wrote FUV.java with tests.
