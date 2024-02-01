@@ -4,23 +4,23 @@ public class CMV {
     public boolean[] cmv;
 
     public CMV(Parameters parameters) {
-        this.parameters = parameters; 
-        this.cmv = new boolean[]{
-            lic0(),
-            lic1(),
-            lic2(),
-            LIC3(),
-            lic4(),
-            lic5(),
-            lic6(),
-            lic7(),
-            LIC8(),
-            lic9(),
-            lic10(),
-            lic11(),
-            lic12(),
-            LIC13(),
-            lic14()
+        this.parameters = parameters;
+        this.cmv = new boolean[] {
+                lic0(),
+                lic1(),
+                lic2(),
+                LIC3(),
+                lic4(),
+                lic5(),
+                lic6(),
+                lic7(),
+                LIC8(),
+                lic9(),
+                lic10(),
+                lic11(),
+                lic12(),
+                LIC13(),
+                lic14()
         };
     }
 
@@ -268,7 +268,7 @@ public class CMV {
      * area greater than AREA1.
      */
     public boolean LIC3() {
-        for (int i = 0, j = 0; i < parameters.x.length - 2 && j < parameters.y.length - 2; i++, j++) {
+        for (int i = 0, j = 0; i < parameters.numPoints - 2 && j < parameters.numPoints - 2; i++, j++) {
             double x1 = parameters.x[i];
             double y1 = parameters.y[j];
             double x2 = parameters.x[i + 1];
