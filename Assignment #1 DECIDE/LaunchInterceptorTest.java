@@ -23,8 +23,12 @@ public class LaunchInterceptorTest {
 
     }
 
+    // testing if the launch interceptor returns true when there is no correlation
+    // in the LCM
     @Test
     public void testLaunchInterceptorWithNoCorrelationLCM() {
+
+        LaunchInterceptor li = new LaunchInterceptor();
 
         Connectors[][] lcm = {
                 { Connectors.ANDD, Connectors.NOTUSED, Connectors.NOTUSED, Connectors.NOTUSED, Connectors.NOTUSED,
@@ -118,13 +122,16 @@ public class LaunchInterceptorTest {
 
         cmv.parameters.numPoints = 4;
 
-        assertTrue(decide);
+        assertTrue(li.decide(cmv.parameters.numPoints, cmv.parameters.x, cmv.parameters.y, cmv.parameters, lcm, PUV));
 
     }
 
+    // testing if the launch interceptor returns true when the PUV is false for all
+    // elements
     @Test
     public void testLaunchInterceptorWithFalsePUV() {
 
+        LaunchInterceptor li = new LaunchInterceptor();
         // prettier-ignore
         Connectors[][] lcm = {
                 { Connectors.ANDD, Connectors.NOTUSED, Connectors.NOTUSED, Connectors.NOTUSED, Connectors.NOTUSED,
@@ -220,14 +227,17 @@ public class LaunchInterceptorTest {
 
         cmv.parameters.numPoints = 4;
 
-        assertFalse(decide);
+        assertTrue(li.decide(cmv.parameters.numPoints, cmv.parameters.x, cmv.parameters.y, cmv.parameters, lcm, PUV));
 
     }
 
+    // testing if the launch interceptor returns false when the PUV is true but some
+    // of the conditions are not met
     @Test
-    public void testLaunchInterceptorWithConditionsMetAndTruePUV() {
+    public void testLaunchInterceptorWithWrongConditionsAndTruePUV() {
 
-        // prettier-ignore
+        LaunchInterceptor li = new LaunchInterceptor();
+
         Connectors[][] lcm = {
                 { Connectors.ANDD, Connectors.NOTUSED, Connectors.NOTUSED, Connectors.NOTUSED, Connectors.NOTUSED,
                         Connectors.NOTUSED, Connectors.NOTUSED, Connectors.ANDD, Connectors.NOTUSED, Connectors.NOTUSED,
@@ -321,24 +331,7 @@ public class LaunchInterceptorTest {
 
         cmv.parameters.numPoints = 4;
 
-        assertTrue(decide);
+        assertFalse(li.decide(cmv.parameters.numPoints, cmv.parameters.x, cmv.parameters.y, cmv.parameters, lcm, PUV));
 
-    }
-
-    public boolean launch(boolean[] fuv) {
-
-        int check = 0;
-
-        for (int i = 0; i < fuv.length; i++) {
-            if (fuv[i]) {
-                check++;
-            }
-        }
-
-        if (check == 15) {
-            return true;
-        }
-
-        return false;
     }
 }
