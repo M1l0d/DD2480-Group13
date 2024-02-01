@@ -1,6 +1,6 @@
 public class PUM {
     
-    public boolean[][] pum;
+    public boolean[][] pum = new boolean[15][15];
     public boolean[] cmv;
     public Connectors[][] lcm;
 
@@ -28,10 +28,13 @@ public class PUM {
                 switch(logicalConnector) {
                     case ANDD :
                         pum[i][j] = cmv[i] && cmv[j];
+                        break;
                     case ORR :
                         pum[i][j] = cmv[i] || cmv[j];
+                        break;
                     case NOTUSED :
                         pum[i][j] = true;
+                        break;
                 }
             }
         }

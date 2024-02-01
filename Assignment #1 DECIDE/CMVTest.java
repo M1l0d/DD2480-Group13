@@ -385,7 +385,7 @@ public class CMVTest {
        emptyCMV.parameters.APTS = A4;
        emptyCMV.parameters.BPTS = B4;
        int NUMPOINTS4 = 5; // A + B > 2
-       emptyCMV.numPoints = NUMPOINTS4;
+       emptyCMV.parameters.numPoints = NUMPOINTS4;
        double RADIUS1_4 = 0.5;
        emptyCMV.parameters.RADIUS1 = RADIUS1_4;
        assertFalse(emptyCMV.LIC8());
