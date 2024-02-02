@@ -696,13 +696,13 @@ public class CMVTest {
         assertTrue(emptyCMV.lic12());
     }
 
-    // TESTS FOR LIC8
+    //TESTS FOR LIC13
     @Test
     public void testLIC13ConditionsMetPointsCannotContained() {
         // Test case 1: Conditions met, data points cannot be contained in or on a
-        // circle of radius RADIUS1
-        double[] x1 = { 0.0, 1.0, 2.0, 3.0, 4.0 };
-        double[] y1 = { 0.0, 1.0, 0.0, 1.0, 0.0 };
+        // circle of radius RADIUS1 but in or on a circle of radius RADIUS2
+        double[] x1 = { 0.0, 1.0, 2.0, 3.0, 4.0};
+        double[] y1 = { 0.0, 1.0, 2.0, 1.0, 0.0};
         emptyCMV.parameters.x = x1;
         emptyCMV.parameters.y = y1;
         int A1 = 1;
@@ -713,7 +713,7 @@ public class CMVTest {
         emptyCMV.parameters.numPoints = NUMPOINTS;
         double RADIUS1 = 0.5;
         emptyCMV.parameters.RADIUS1 = RADIUS1;
-        double RADIUS2 = 1.0;
+        double RADIUS2 = 7.0;
         emptyCMV.parameters.RADIUS2 = RADIUS2;
         assertTrue(emptyCMV.LIC13());
     }
