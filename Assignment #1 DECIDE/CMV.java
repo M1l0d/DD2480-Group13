@@ -151,6 +151,7 @@ public class CMV {
         return (calcDistance(midPointOfCircle[0], point[0], midPointOfCircle[1], point[1]) / 2) < radius;
     }
 
+
     /**
      * LIC0
      * Sees if there exists at least one set of two consecutive data points that are
@@ -268,7 +269,10 @@ public class CMV {
      * area greater than AREA1.
      */
     public boolean LIC3() {
-        for (int i = 0, j = 0; i < parameters.x.length - 2 && j < parameters.y.length - 2; i++, j++) {
+        if (parameters.AREA1 < 0){
+            return false;
+        }
+        for (int i = 0, j = 0; i < parameters.numPoints- 2 && j < parameters.numPoints- 2; i++, j++) {
             double x1 = parameters.x[i];
             double y1 = parameters.y[j];
             double x2 = parameters.x[i + 1];
@@ -441,27 +445,25 @@ public class CMV {
     public boolean LIC8() {
         /*
          * CONDITION-CHECKS
-         * // Check if NUMPOINTS is less than 5
-         * if (numPoints < 5) {
-         * return false; // Condition not met
-         * }
-         * // Check if A and B are less than 1
-         * if (parameters.APTS < 1 || parameters.BPTS < 1) {
-         * return false; // Condition not met
-         * }
-         * // Check if A + B is greater than NUMPOINTS - 3
-         * if (parameters.APTS + parameters.BPTS > numPoints - 3) {
-         * return false; // Condition not met
-         * // }
-         * /* Check if there exists at least one set of three data points separated by
+         * // Check if NUMPOINTS is less than 5 */
+         if (parameters.numPoints < 5) {
+         return false; // Condition not met
+         }
+         // Check if A and B are less than 1
+         if (parameters.APTS < 1 || parameters.BPTS < 1) {
+         return false; // Condition not met
+         }
+         // Check if A + B is greater than NUMPOINTS - 3
+         if (parameters.APTS + parameters.BPTS > parameters.numPoints - 3) {
+         return false; // Condition not met
+         }
+  
+         /* Check if there exists at least one set of three data points separated by
          * exactly A_PTS and B_PTS consecutive intervening points, respectively,
          * that cannot be contained within or on a circle of radius RADIUS1
          */
-        for (int i = 0; i < parameters.numPoints - parameters.APTS - parameters.BPTS - 2; i++) { // NUMPOINTS - 2 to
-                                                                                                 // ensure there's
-                                                                                                 // remaining data
-                                                                                                 // points for an
-                                                                                                 // iteration
+        for (int i = 0; i < parameters.numPoints - parameters.APTS - parameters.BPTS - 2; i++) { 
+                                                                                            
             double x1 = parameters.x[i];
             double y1 = parameters.y[i];
             double x2 = parameters.x[i + parameters.APTS + 1];
@@ -676,18 +678,18 @@ public class CMV {
      * @return true if it exists, false if it doesn't
      */
     public boolean LIC13() {
+        int a = 5;
         // CONDITION-CHECKS
-        // Check if NUMPOINTS is less than 5
-        if (parameters.numPoints < 5) {
+        /*Check if NUMPOINTS is less than 5
+        if (parameters.numPoints == 0) {
             return false; // Condition not met
         }
-        // Check if RADIUS2 is less than 0
+        //Check if RADIUS2 is less than 0
         if (parameters.RADIUS2 < 0) {
             return false; // Condition not met
-        }
-        if (LIC8()) { // Check that the first part of the condition is met
-            for (int i = 0; i < parameters.APTS - parameters.BPTS - 2; i++) { // NUMPOINTS - 2 to ensure there's
-                                                                              // remaining data points for an iteration
+        }*/
+        if (LIC8()) { // Check that the first part of the condition is met*/
+            for (int i = 0; i < parameters.numPoints - parameters.APTS - parameters.BPTS - 2; i++) { 
                 double x1 = parameters.x[i];
                 double y1 = parameters.y[i];
                 double x2 = parameters.x[i + parameters.APTS + 1];
@@ -712,6 +714,7 @@ public class CMV {
                 double[] lastPoint2 = new double[] { x2, y2 };
                 boolean last2InCircle = pointInsideCircle(midPoint2, radius2, lastPoint2);
 
+    
                 if (last2InCircle && radius2 < minRadius) {
                     minRadius = radius2;
                 }
@@ -728,15 +731,15 @@ public class CMV {
                 if (minRadius == inf) {
                     minRadius = calculateCircumCircleRadius(x1, x2, x3, y1, y2, y3);
                 }
+                //double biggestRadius = Math.max(radius1, Math.max(radius2, radius3)); //find biggest radius
 
-                if (minRadius > parameters.RADIUS1) {
-                    return true;
+                if (minRadius <= parameters.RADIUS2){
+                        return true;
                 }
             }
         }
-        return false;
-    }
-
+    return false;
+ }
     /**
      * Checks lic14 by finding one set of three points separated by exactly E_PTS &
      * F_PTS consecutive intervening points, respectively, that are three vertices
