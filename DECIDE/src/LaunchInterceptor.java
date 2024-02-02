@@ -18,15 +18,16 @@ public class LaunchInterceptor {
     // Decision: Launch or No Launch
     public boolean launch;
 
-    public static void main(String[] args) {
-        LaunchInterceptor launchInterceptor = new LaunchInterceptor();
-        Parameters parameters = new Parameters();
 
-        // launchInterceptor.decide();
-    }
-
-    // Function you must write
-    public boolean decide(int numPoints, double xCoords[], double yCoords[], Parameters parameters, Connectors[][] lcm,
+    /** Function that Combines all components and input to decide wheter to launch or not. 
+     *  @param numPoints - Number of datapoints
+     *  @param parameters - Input parameters that are used in calculations of all Launch Interceptor Conditions
+     *  @param lcm - Logical Connector Matrix describes how individual LIC’s should be logically combined.
+     *  @param puv - Preliminary Unlocking Vector indicates whether the corresponding LIC is to be considered as a factor in signaling
+                    interceptor launch
+     *  @return  - true if launch, false if not
+     */
+    public boolean decide(int numPoints, Parameters parameters, Connectors[][] lcm,
             boolean[] puv) {
 
         CMV CMVOBject = new CMV(parameters);
@@ -41,6 +42,11 @@ public class LaunchInterceptor {
         return launch(FUVObject.getFUV());
     }
 
+    // Final decision to launch or not
+    /** Function that returns the final decision to launch or not
+     *  @param fuv - Final Unlocking Vector
+     *  @return boolean - true if launch, false if not
+     */
     public boolean launch(boolean[] fuv) {
 
         int check = 0;

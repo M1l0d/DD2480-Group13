@@ -1,8 +1,17 @@
+/**
+ * The CMV(Conditions Met Vector) class hold all functions to evaluate the the 15 Launch Interceptor Conditions.
+ * Each LIC(Launch Interceptor Condition) has one function each that uses helper functions to do the evaluation.
+ * Each LIC return true or false, depending on the state of the input. 
+ *
+ */
 public class CMV {
 
-    Parameters parameters;
-    public boolean[] cmv;
+    Parameters parameters;      // hold all data of parameters.
+    public boolean[] cmv;       // the array/vector that contains the boolean values returned from each LIC function 
 
+    /**
+     * Constructor for CMV
+     */
     public CMV(Parameters parameters) {
         this.parameters = parameters;
         this.cmv = new boolean[] {
@@ -24,17 +33,11 @@ public class CMV {
         };
     }
 
+    /**
+     * Return the CMV array
+     */
     public boolean[] getCmv() {
         return cmv;
-    }
-
-    // Compare floating-point numbers
-    public static CompType doubleCompare(double a, double b) {
-        if (Math.abs(a - b) < 0.000001)
-            return CompType.EQ;
-        if (a < b)
-            return CompType.LT;
-        return CompType.GT;
     }
 
     /**
@@ -160,6 +163,10 @@ public class CMV {
      * @return true if it exists, false if it doesn't
      */
     public boolean lic0() {
+        if(parameters.LENGTH1 < 0) {
+            return false;
+        }
+
         for (int i = 0; i < parameters.numPoints - 1; i++) {
             if (calcDistance(parameters.x[i], parameters.x[i + 1], parameters.y[i],
                     parameters.y[i + 1]) > parameters.LENGTH1) {
@@ -178,6 +185,10 @@ public class CMV {
      * @return true if it exists, false if it doesn't
      */
     public boolean lic1() {
+        if(parameters.RADIUS1 < 0) {
+            return false;
+        }
+        
         double inf = 1e18;
         for (int i = 0; i < parameters.numPoints - 2; i++) {
 
@@ -243,6 +254,9 @@ public class CMV {
      */
     public boolean lic2() {
 
+        if(parameters.EPSILON < 0 && parameters.EPSILON > Math.PI) {
+            return false;
+        }
         for (int i = 0; i < parameters.numPoints - 2; i++) {
 
             if (!collinear(parameters.x[i], parameters.y[i], parameters.x[i + 1], parameters.y[i + 1],
@@ -261,7 +275,6 @@ public class CMV {
 
     }
 
-    // SKRIV FUNKTIONER NEDAN
     /*
      * LIC 3
      * There exists at least one set of three
@@ -368,58 +381,61 @@ public class CMV {
      * the N PTS consecutive points. The condition is not met when NUMPOINTS <3.
      * (3 ≤N PTS ≤NUMPOINTS), (0 ≤DIST)
      * 
-     * @return - True if condition is met, False otherwise
+     *  @return - True if condition is met, False otherwise
      */
     public boolean lic6() {
-        if (3 < parameters.numPoints) {
-            for (int i = 0; i < parameters.numPoints - parameters.NPTS; i++) {
-                if (parameters.x[i] == parameters.x[i + parameters.NPTS]
-                        && parameters.y[i] == parameters.y[i + parameters.NPTS]) {
-                    double distBetweenPoints = Math
-                            .sqrt(Math.pow(parameters.x[i] - parameters.x[i + parameters.NPTS], 2)
-                                    + Math.pow(parameters.y[i] - parameters.y[i + parameters.NPTS], 2));
-                    if (parameters.DIST < distBetweenPoints) {
-                        return true;
+
+        if(3 > parameters.NPTS ||  parameters.NPTS > parameters.numPoints || parameters.DIST < 0) {
+            return false;
+        }
+
+        for (int i = 0; i < parameters.numPoints - parameters.NPTS; i++) {
+            if (parameters.x[i] == parameters.x[i + parameters.NPTS]
+                    && parameters.y[i] == parameters.y[i + parameters.NPTS]) {
+                double distBetweenPoints = Math
+                        .sqrt(Math.pow(parameters.x[i] - parameters.x[i + parameters.NPTS], 2)
+                                + Math.pow(parameters.y[i] - parameters.y[i + parameters.NPTS], 2));
+                if (parameters.DIST < distBetweenPoints) {
+                    return true;
+                }
+            } else {
+                for (int j = i; j < i + parameters.NPTS; j++) {
+                    double distFromLineToPoint;
+                    
+                    double vecLineStartX = parameters.x[i];
+                    double vecLineStartY = parameters.y[i];
+                    double vecLineStopX = parameters.x[i + parameters.NPTS];
+                    double vecLineStopY = parameters.y[i + parameters.NPTS];
+                    double lineVecX = vecLineStopX - vecLineStartX;
+                    double lineVecY = vecLineStopY - vecLineStartY;
+
+                    double vecLineToPointStartX = parameters.x[i];
+                    double vecLineToPointStartY = parameters.y[i];
+                    double vecLineToPointStopX = parameters.x[j];
+                    double vecLineToPointStopY = parameters.y[j];
+                    double lineToPointVecX = vecLineToPointStopX - vecLineToPointStartX;
+                    double lineToPointVecY = vecLineToPointStopY - vecLineToPointStartY;
+                    
+                    double proj = lineVecX*lineToPointVecX + lineVecY*lineToPointVecY;
+                    double lineSquareLength = Math.pow(lineVecX,2) + Math.pow(lineVecX,2);
+                    double normProj = proj/lineSquareLength;
+
+                    if(normProj <= 0) {
+                        distFromLineToPoint = calcDistance(parameters.x[i], parameters.x[j], parameters.y[i], parameters.y[j]);
+                    } else if(normProj >= 1) {
+                        distFromLineToPoint = calcDistance(parameters.x[i + parameters.NPTS], parameters.x[j], parameters.y[i + parameters.NPTS], parameters.y[j]);
+
+                    } else {
+                        double a = (parameters.y[i] - parameters.y[i + parameters.NPTS]);
+                        double b = (parameters.x[i + parameters.NPTS] - parameters.x[i]);
+                        double c = (parameters.x[i] * parameters.y[i + parameters.NPTS]
+                                - parameters.y[i] * parameters.x[i + parameters.NPTS]);
+                        distFromLineToPoint = Math.abs(((a * parameters.x[j] + b * parameters.y[j] + c)
+                            / Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2))));
                     }
-                } else {
-                    for (int j = i; j < i + parameters.NPTS; j++) {
-                        double distFromLineToPoint;
-                        
-                        double vecLineStartX = parameters.x[i];
-                        double vecLineStartY = parameters.y[i];
-                        double vecLineStopX = parameters.x[i + parameters.NPTS];
-                        double vecLineStopY = parameters.y[i + parameters.NPTS];
-                        double lineVecX = vecLineStopX - vecLineStartX;
-                        double lineVecY = vecLineStopY - vecLineStartY;
 
-                        double vecLineToPointStartX = parameters.x[i];
-                        double vecLineToPointStartY = parameters.y[i];
-                        double vecLineToPointStopX = parameters.x[j];
-                        double vecLineToPointStopY = parameters.y[j];
-                        double lineToPointVecX = vecLineToPointStopX - vecLineToPointStartX;
-                        double lineToPointVecY = vecLineToPointStopY - vecLineToPointStartY;
-                        
-                        double proj = lineVecX*lineToPointVecX + lineVecY*lineToPointVecY;
-                        double lineSquareLength = Math.pow(lineVecX,2) + Math.pow(lineVecX,2);
-                        double normProj = proj/lineSquareLength;
-
-                        if(normProj <= 0) {
-                            distFromLineToPoint = calcDistance(parameters.x[i], parameters.x[j], parameters.y[i], parameters.y[j]);
-                        } else if(normProj >= 1) {
-                            distFromLineToPoint = calcDistance(parameters.x[i + parameters.NPTS], parameters.x[j], parameters.y[i + parameters.NPTS], parameters.y[j]);
-
-                        } else {
-                            double a = (parameters.y[i] - parameters.y[i + parameters.NPTS]);
-                            double b = (parameters.x[i + parameters.NPTS] - parameters.x[i]);
-                            double c = (parameters.x[i] * parameters.y[i + parameters.NPTS]
-                                    - parameters.y[i] * parameters.x[i + parameters.NPTS]);
-                            distFromLineToPoint = Math.abs(((a * parameters.x[j] + b * parameters.y[j] + c)
-                                / Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2))));
-                        }
-
-                        if (parameters.DIST < distFromLineToPoint) {
-                            return true;
-                        }
+                    if (parameters.DIST < distFromLineToPoint) {
+                        return true;
                     }
                 }
             }
@@ -471,9 +487,8 @@ public class CMV {
      *
      */
     public boolean LIC8() {
-        /*
-         * CONDITION-CHECKS
-         * // Check if NUMPOINTS is less than 5 */
+        
+         // Check if NUMPOINTS is less than 5
          if (parameters.numPoints < 5) {
          return false; // Condition not met
          }
@@ -596,18 +611,21 @@ public class CMV {
      * @return true if it exists, false if it doesn't
      */
     public boolean lic10() {
-        if (parameters.numPoints >= 5) {
-            for (int i = 0; i < parameters.numPoints - parameters.EPTS - parameters.FPTS - 2; i++) {
-                int EPoint = i + parameters.EPTS + 1;
-                int FPoint = i + EPoint + parameters.FPTS + 1;
-                double verticeE = calcDistance(parameters.x[i], parameters.x[EPoint], parameters.y[i],
-                        parameters.y[EPoint]);
-                double verticeF = calcDistance(parameters.x[EPoint], parameters.x[FPoint], parameters.y[EPoint],
-                        parameters.y[FPoint]);
+        
+        if(parameters.numPoints < 5 || parameters.EPTS < 1 || parameters.FPTS < 1 || (parameters.EPTS + parameters.FPTS > parameters.numPoints - 3)) {
+            return false;
+        }
+        
+        for (int i = 0; i < parameters.numPoints - parameters.EPTS - parameters.FPTS - 2; i++) {
+            int EPoint = i + parameters.EPTS + 1;
+            int FPoint = i + EPoint + parameters.FPTS + 1;
+            double verticeE = calcDistance(parameters.x[i], parameters.x[EPoint], parameters.y[i],
+                    parameters.y[EPoint]);
+            double verticeF = calcDistance(parameters.x[EPoint], parameters.x[FPoint], parameters.y[EPoint],
+                    parameters.y[FPoint]);
 
-                if ((verticeE * verticeF) / 2 > parameters.AREA1) {
-                    return true;
-                }
+            if ((verticeE * verticeF) / 2 > parameters.AREA1) {
+                return true;
             }
         }
         return false;
@@ -625,7 +643,7 @@ public class CMV {
      */
     public boolean lic11() {
 
-        if (parameters.numPoints > 3) {
+        if (parameters.numPoints >= 3 && (parameters.GPTS >= 1 && parameters.GPTS <= parameters.numPoints)) {
             for (int i = 0; i < parameters.numPoints - parameters.GPTS; i++) {
                 if (parameters.x[i + parameters.GPTS] - parameters.x[i] < 0) {
                     return true;
@@ -706,16 +724,14 @@ public class CMV {
      * @return true if it exists, false if it doesn't
      */
     public boolean LIC13() {
-        int a = 5;
-        // CONDITION-CHECKS
-        /*Check if NUMPOINTS is less than 5
+        //Check if NUMPOINTS is less than 5
         if (parameters.numPoints == 0) {
             return false; // Condition not met
         }
         //Check if RADIUS2 is less than 0
         if (parameters.RADIUS2 < 0) {
             return false; // Condition not met
-        }*/
+        }
         if (LIC8()) { // Check that the first part of the condition is met*/
             for (int i = 0; i < parameters.numPoints - parameters.APTS - parameters.BPTS - 2; i++) { 
                 double x1 = parameters.x[i];
@@ -759,7 +775,6 @@ public class CMV {
                 if (minRadius == inf) {
                     minRadius = calculateCircumCircleRadius(x1, x2, x3, y1, y2, y3);
                 }
-                //double biggestRadius = Math.max(radius1, Math.max(radius2, radius3)); //find biggest radius
 
                 if (minRadius <= parameters.RADIUS2){
                         return true;

@@ -1,7 +1,9 @@
+/**
+ * The Parameter class holds parameters to be used in evaluations of Launch Interceptor Conditions
+ */
 public class Parameters {
-
-    // INPUTS TO THE DECIDE() FUNCTION
     
+    // parameters to be used in evaluation of Launch Interceptor Conditions
     public double LENGTH1;
     public double RADIUS1;
     public double EPSILON;

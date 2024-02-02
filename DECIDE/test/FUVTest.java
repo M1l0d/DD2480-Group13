@@ -5,6 +5,9 @@ import org.junit.Before;
 
 public class FUVTest {
 
+    PUM pum;            //PUM object
+    boolean[] fuv;      //FUV array 
+
     Connectors[][] lcm = new Connectors[][]{
         {Connectors.ANDD, Connectors.ORR, Connectors.ORR, Connectors.ANDD, Connectors.NOTUSED, Connectors.ORR, Connectors.ANDD, Connectors.ORR, Connectors.ANDD, Connectors.ORR, Connectors.NOTUSED, Connectors.ANDD, Connectors.ORR, Connectors.ANDD, Connectors.ORR},
         {Connectors.ORR, Connectors.ANDD, Connectors.ORR, Connectors.ORR, Connectors.ORR, Connectors.ORR, Connectors.NOTUSED, Connectors.ORR, Connectors.ORR, Connectors.ORR, Connectors.ORR, Connectors.NOTUSED, Connectors.ORR, Connectors.ORR, Connectors.ORR},
@@ -172,7 +175,10 @@ public class FUVTest {
             false,
             false,
     };
-
+    
+    /**
+     * Populate the indexes of a PUM matrix with true values
+     */
     public void populatePUM(boolean[][] pum) {
 
         for(int i=0; i < pum.length; i++) {
@@ -182,17 +188,14 @@ public class FUVTest {
         }
     }
 
-    
-    
     @Before
     public void setUp() {
-        
+        this.pum = new PUM(cmv, lcm);
+        this.fuv = new boolean[15];
     }
 
     @Test
-    public void testFUVWhenPUVAndPUMContainAllTrue() {
-        PUM pum = new PUM(cmv, lcm);
-        boolean[] fuv = new boolean[15];
+    public void testFUVArrayWhenPUVAndPUMContainAllTrue() {
         populatePUM(pumAllTrue);
         pum.setPUM(pumAllTrue);
         FUV fuvObj = new FUV(fuv, puvAllTrue, pum);
@@ -201,9 +204,7 @@ public class FUVTest {
     }
 
     @Test
-    public void testFUVWhenPUVContainsAllTrueAndPUMContainsAllFalse() {
-        PUM pum = new PUM(cmv, lcm);
-        boolean[] fuv = new boolean[15];
+    public void testFUVArrayWhenPUVContainsAllTrueAndPUMContainsAllFalse() {
         pum.setPUM(pumAllFalse);
         FUV fuvObj = new FUV(fuv, puvAllTrue, pum);
 
@@ -211,9 +212,7 @@ public class FUVTest {
     }
 
     @Test
-    public void testFUVWhenPUVAndPUMContainAllFalse() {
-        PUM pum = new PUM(cmv, lcm);
-        boolean[] fuv = new boolean[15];
+    public void testFUVArrayWhenPUVAndPUMContainAllFalse() {
         pum.setPUM(pumAllFalse);
         FUV fuvObj = new FUV(fuv, puvAllFalse, pum);
 
@@ -221,9 +220,7 @@ public class FUVTest {
     }
 
     @Test
-    public void testFUVWhenPUMContainsMixedAndPUVContainsAllFalse() {
-        PUM pum = new PUM(cmv, lcm);
-        boolean[] fuv = new boolean[15];
+    public void testFUVArrayWhenPUMContainsMixedAndPUVContainsAllFalse() {
         pum.setPUM(pumMixed);
         FUV fuvObj = new FUV(fuv, puvAllFalse, pum);
 
@@ -231,9 +228,7 @@ public class FUVTest {
     }
 
     @Test
-    public void testFUVWhenPUMContainsAllTrueAndPUVContainsMixed() {
-        PUM pum = new PUM(cmv, lcm);
-        boolean[] fuv = new boolean[15];
+    public void testFUVArrayWhenPUMContainsAllTrueAndPUVContainsMixed() {
         populatePUM(pumAllTrue);
         pum.setPUM(pumAllTrue);
         FUV fuvObj = new FUV(fuv, puvMixed, pum);
@@ -242,9 +237,7 @@ public class FUVTest {
     }
 
     @Test
-    public void testFUVWhenPUMContainsAllFalseAndPUVContainsMixed() {
-        PUM pum = new PUM(cmv, lcm);
-        boolean[] fuv = new boolean[15];
+    public void testFUVArrayWhenPUMContainsAllFalseAndPUVContainsMixed() {
         pum.setPUM(pumAllFalse);
         FUV fuvObj = new FUV(fuv, puvMixed, pum);
 

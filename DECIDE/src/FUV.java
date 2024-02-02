@@ -1,9 +1,20 @@
+/**
+ * FUV class that generates a boolean array of size 15 that helps generate a launch decision
+ */
+
 public class FUV {
 
         public boolean[] fuvArr;
         public boolean[] puv;
         public boolean[][] pumArray;
 
+        /**
+         * Constructor for FUV
+         * 
+         * @param fuvArr - 15 boolean values that help generate a launch decision
+         * @param puv - 15 boolean values that indicate which LIC conditions should affect launch decision
+         * @param pum - a PUM object
+         */
         public FUV(boolean[] fuvArr, boolean[] puv, PUM pum) {
 
                 this.fuvArr = fuvArr;
@@ -35,6 +46,9 @@ public class FUV {
                 }
         }
 
+        /**
+         * Return the FUV array
+         */
         public boolean[] getFUV() {
                 return this.fuvArr;
         }

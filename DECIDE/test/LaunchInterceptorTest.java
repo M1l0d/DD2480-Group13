@@ -3,7 +3,6 @@ import java.util.Random;
 import java.util.Set;
 
 import static org.junit.Assert.*;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -122,7 +121,7 @@ public class LaunchInterceptorTest {
 
         cmv.parameters.numPoints = 4;
 
-        assertTrue(li.decide(cmv.parameters.numPoints, cmv.parameters.x, cmv.parameters.y, cmv.parameters, lcm, PUV));
+        assertTrue(li.decide(cmv.parameters.numPoints, cmv.parameters, lcm, PUV));
 
     }
 
@@ -227,7 +226,7 @@ public class LaunchInterceptorTest {
 
         cmv.parameters.numPoints = 4;
 
-        assertTrue(li.decide(cmv.parameters.numPoints, cmv.parameters.x, cmv.parameters.y, cmv.parameters, lcm, PUV));
+        assertTrue(li.decide(cmv.parameters.numPoints, cmv.parameters, lcm, PUV));
 
     }
 
@@ -331,7 +330,7 @@ public class LaunchInterceptorTest {
 
         cmv.parameters.numPoints = 4;
 
-        assertFalse(li.decide(cmv.parameters.numPoints, cmv.parameters.x, cmv.parameters.y, cmv.parameters, lcm, PUV));
+        assertFalse(li.decide(cmv.parameters.numPoints, cmv.parameters, lcm, PUV));
 
     }
 }
