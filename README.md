@@ -92,7 +92,7 @@ Another input, the Preliminary Unlocking Vector (PUV) represents which LIC actua
 - [X] Add testing to all LIC's 
 - [X] Refactor code 
 - [X] Add PUM 
-- [] Add FUV 
+- [X] Add FUV 
 - [X] Add Launch 
 - [X] Add overarching tests 
 - [X] Add README 
@@ -130,3 +130,6 @@ Apart from these tasks each member had, we also helped each other wherever neede
 - Wrote code for LICs 4, 9, 14 with tests.
 - Co-author for refactoring all of the code.
 - Wrote FUV.java with tests.
+
+## Way of working:
+Apart from not having an explicit agreement with the stakeholders, which in this case would be the teachers, our team has a great way of working and we feel that we lie comfortably in the state of “In Use” or even “In Place”. What is keeping us from moving towards a way-of-working that is considered to be “Working Well” is that we have yet to update it and adapt it since we are only on our first assignment, but so far it has been working well. With time, and in future assignments, we will be able to develop these parts of those states as well, making our way-of-working better. The way-of-working that we have established as a group has thus far worked well, and everyone is adapting very quickly to it. 
