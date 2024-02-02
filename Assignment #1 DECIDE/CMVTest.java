@@ -607,6 +607,19 @@ public class CMVTest {
         assertTrue(emptyCMV.lic11());
     }
 
+    @Test
+    public void lic11ReturnsFalseIfDataPointOnlyHasSmallerXValueThanDataPointGPTSLaterInXCoordinetList() {
+        double[] xCoordinates = new double[] { 3, 4, 5, 6, 7, 8 };
+        double[] yCoordinates = new double[] { 1, 1, 1, 1, 1, 1 };
+
+        emptyCMV.parameters.GPTS = 4;
+        emptyCMV.parameters.numPoints = xCoordinates.length;
+        emptyCMV.parameters.x = xCoordinates;
+        emptyCMV.parameters.y = yCoordinates;
+
+        assertFalse(emptyCMV.lic11());
+    }
+
     // test case for when the number of points are less than 3
     @Test
     public void testLic12NumPointsLessThan3() {
