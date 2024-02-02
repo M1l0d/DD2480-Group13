@@ -285,6 +285,34 @@ public class CMVTest {
         assertTrue(emptyCMV.lic6());
     }
 
+    @Test
+    public void lic6ReturnsFalseIfOnePointWithinRangeOfN_PTSPointsIsNotAtADistanceGreaterThanDIST() {
+        double[] xCoordinates = new double[] { 2, 3, 4, 5, 6 };
+        double[] yCoordinates = new double[] { 2, 3, 4, 5, 6 };
+
+        emptyCMV.parameters.DIST = 2;
+        emptyCMV.parameters.NPTS = 3;
+        emptyCMV.parameters.numPoints = xCoordinates.length;
+        emptyCMV.parameters.x = xCoordinates;
+        emptyCMV.parameters.y = yCoordinates;
+
+        assertFalse(emptyCMV.lic6());
+    }
+
+    @Test
+    public void lic6ReturnsTrueIfOnePointWithinRangeOfN_PTSPointsIsAtADistanceGreaterThanDISTAndDistIsNotARightAngleToLine() {
+        double[] xCoordinates = new double[] { 2, 3, 4, 8, 5, 6 };
+        double[] yCoordinates = new double[] { 2, 3, 4, 5, 5, 6 };
+
+        emptyCMV.parameters.DIST = 2;
+        emptyCMV.parameters.NPTS = 4;
+        emptyCMV.parameters.numPoints = xCoordinates.length;
+        emptyCMV.parameters.x = xCoordinates;
+        emptyCMV.parameters.y = yCoordinates;
+
+        assertTrue(emptyCMV.lic6());
+    }
+
     // test case for when the number of points are less than 3
     @Test
     public void testLic7NumPointsLessThan3() {
@@ -577,6 +605,19 @@ public class CMVTest {
         emptyCMV.parameters.y = yCoordinates;
 
         assertTrue(emptyCMV.lic11());
+    }
+
+    @Test
+    public void lic11ReturnsFalseIfDataPointOnlyHasSmallerXValueThanDataPointGPTSLaterInXCoordinetList() {
+        double[] xCoordinates = new double[] { 3, 4, 5, 6, 7, 8 };
+        double[] yCoordinates = new double[] { 1, 1, 1, 1, 1, 1 };
+
+        emptyCMV.parameters.GPTS = 4;
+        emptyCMV.parameters.numPoints = xCoordinates.length;
+        emptyCMV.parameters.x = xCoordinates;
+        emptyCMV.parameters.y = yCoordinates;
+
+        assertFalse(emptyCMV.lic11());
     }
 
     // test case for when the number of points are less than 3

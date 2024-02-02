@@ -4,23 +4,23 @@ public class CMV {
     public boolean[] cmv;
 
     public CMV(Parameters parameters) {
-        this.parameters = parameters; 
-        this.cmv = new boolean[]{
-            lic0(),
-            lic1(),
-            lic2(),
-            LIC3(),
-            lic4(),
-            lic5(),
-            lic6(),
-            lic7(),
-            LIC8(),
-            lic9(),
-            lic10(),
-            lic11(),
-            lic12(),
-            LIC13(),
-            lic14()
+        this.parameters = parameters;
+        this.cmv = new boolean[] {
+                lic0(),
+                lic1(),
+                lic2(),
+                LIC3(),
+                lic4(),
+                lic5(),
+                lic6(),
+                lic7(),
+                LIC8(),
+                lic9(),
+                lic10(),
+                lic11(),
+                lic12(),
+                LIC13(),
+                lic14()
         };
     }
 
@@ -272,7 +272,7 @@ public class CMV {
         if (parameters.AREA1 < 0){
             return false;
         }
-        for (int i = 0, j = 0; i < parameters.numPoints- 2 && j < parameters.numPoints- 2; i++, j++) {
+        for (int i = 0, j = 0; i < parameters.numPoints - 2 && j < parameters.numPoints - 2; i++, j++) {
             double x1 = parameters.x[i];
             double y1 = parameters.y[j];
             double x2 = parameters.x[i + 1];
@@ -383,12 +383,40 @@ public class CMV {
                     }
                 } else {
                     for (int j = i; j < i + parameters.NPTS; j++) {
-                        double a = (parameters.y[i] - parameters.y[i + parameters.NPTS]);
-                        double b = (parameters.x[i + parameters.NPTS] - parameters.x[i]);
-                        double c = (parameters.x[i] * parameters.y[i + parameters.NPTS]
-                                - parameters.y[i] * parameters.x[i + parameters.NPTS]);
-                        double distFromLineToPoint = Math.abs(((a * parameters.x[j] + b * parameters.y[j] + c)
+                        double distFromLineToPoint;
+                        
+                        double vecLineStartX = parameters.x[i];
+                        double vecLineStartY = parameters.y[i];
+                        double vecLineStopX = parameters.x[i + parameters.NPTS];
+                        double vecLineStopY = parameters.y[i + parameters.NPTS];
+                        double lineVecX = vecLineStopX - vecLineStartX;
+                        double lineVecY = vecLineStopY - vecLineStartY;
+
+                        double vecLineToPointStartX = parameters.x[i];
+                        double vecLineToPointStartY = parameters.y[i];
+                        double vecLineToPointStopX = parameters.x[j];
+                        double vecLineToPointStopY = parameters.y[j];
+                        double lineToPointVecX = vecLineToPointStopX - vecLineToPointStartX;
+                        double lineToPointVecY = vecLineToPointStopY - vecLineToPointStartY;
+                        
+                        double proj = lineVecX*lineToPointVecX + lineVecY*lineToPointVecY;
+                        double lineSquareLength = Math.pow(lineVecX,2) + Math.pow(lineVecX,2);
+                        double normProj = proj/lineSquareLength;
+
+                        if(normProj <= 0) {
+                            distFromLineToPoint = calcDistance(parameters.x[i], parameters.x[j], parameters.y[i], parameters.y[j]);
+                        } else if(normProj >= 1) {
+                            distFromLineToPoint = calcDistance(parameters.x[i + parameters.NPTS], parameters.x[j], parameters.y[i + parameters.NPTS], parameters.y[j]);
+
+                        } else {
+                            double a = (parameters.y[i] - parameters.y[i + parameters.NPTS]);
+                            double b = (parameters.x[i + parameters.NPTS] - parameters.x[i]);
+                            double c = (parameters.x[i] * parameters.y[i + parameters.NPTS]
+                                    - parameters.y[i] * parameters.x[i + parameters.NPTS]);
+                            distFromLineToPoint = Math.abs(((a * parameters.x[j] + b * parameters.y[j] + c)
                                 / Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2))));
+                        }
+
                         if (parameters.DIST < distFromLineToPoint) {
                             return true;
                         }
